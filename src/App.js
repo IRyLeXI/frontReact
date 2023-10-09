@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'; // Імпорт Axios
 
 function App() {
+  const [numbers, setNumbers] = useState([]); // Стан для зберігання чисел
+
+  useEffect(() => {
+    // Виконуємо GET-запит до бекенду після завантаження компонента
+    axios.get('http://localhost:5239/Home/getAll/Clothes')
+        .then(response => {
+          // Отримали дані від бекенду
+          setNumbers(response.data);
+        })
+        .catch(error => {
+          console.error('Помилка отримання даних від сервера:', error);
+        });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <header className="App-header">
+          <p>Список чисел з сервера:</p>
+          <ul>
+            {numbers.map((number, index) => (
+                <li key={index}>{number}</li>
+            ))}
+          </ul>
+        </header>
+      </div>
   );
 }
 
