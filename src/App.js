@@ -6,7 +6,7 @@ function App() {
 
     useEffect(() => {
         // Виконуємо GET-запит до бекенду після завантаження компонента
-        axios.get('https://testapp2004.azurewebsites.net/Home/getAll/Clothes')
+        axios.get('https://madenbackend.azurewebsites.net/Home/getAll/Clothes')
             .then(response => {
                 // Отримали дані від бекенду
                 setNumbers(response.data);
