@@ -1,0 +1,59 @@
+.loginPage {
+    display: flex;
+}
+
+.loginPanel {
+    width: 443px;
+    height: 1024px;
+    flex-shrink: 0;
+    background: #44576D;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.input1,
+.input2 {
+    width: 340px;
+    height: 55px;
+    background: linear-gradient(0deg, #BBCBEE 0%, #BBCBEE 100%), linear-gradient(0deg, #C1E8FF 0%, #C1E8FF 100%), #41877E;
+    margin: 10px;
+}
+
+.registerText {
+    width: 231px;
+    height: 103px;
+    flex-shrink: 0;
+    color: #FFF;
+    font-family: Outfit;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute; /* Встановіть position: absolute для тексту реєстрації */
+    bottom: 40px; /* Встановіть відстань внизу в 40 пікселів */
+}
+
+
+.MainPanel {
+    width: 1478px;
+    height: 1024px;
+    flex-shrink: 0;
+    background: #1E3F52;
+}
+
+.button {width: 204px;
+    height: 53px;
+    flex-shrink: 0;
+    color: #D2D2D2;
+    font-family: Outfit;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 68px;
+    background: #162F3E;
+}

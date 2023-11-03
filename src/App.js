@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Імпорт Axios
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
-    const [numbers, setNumbers] = useState([]); // Стан для зберігання чисел
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        // Виконуємо GET-запит до бекенду після завантаження компонента
-        axios.get('https://madenbackend.azurewebsites.net/Home/getAll/Clothes')
-            .then(response => {
-                // Отримали дані від бекенду
-                setNumbers(response.data);
-            })
-            .catch(error => {
-                console.error('Помилка отримання даних від сервера:', error);
-            });
-    }, []);
+    const goToLogin = () => {
+        navigate('/login');
+    };
+
+    const goToRegister = () => {
+        navigate('/register');
+    };
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <p>Список чисел з сервера:</p>
-                <ul>
-                    {numbers.map((number, index) => (
-                        <li key={index}>{number}</li>
-                    ))}
-                </ul>
-            </header>
+        <div>
+            <h1>Ласкаво просимо!</h1>
+            <p>Виберіть дію:</p>
+            <ul>
+                <li>
+                    <button onClick={goToLogin}>Логін</button>
+                </li>
+                <li>
+                    <button onClick={goToRegister}>Реєстрація</button>
+                </li>
+            </ul>
         </div>
     );
 }
