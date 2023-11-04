@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import styles from './Login.css';
+import styles from './Login.css'
+
 
 function Login() {
     const navigate = useNavigate();
@@ -9,21 +10,16 @@ function Login() {
     const [password, setPassword] = useState('');
     const handleLogin = async () => {
         try {
-            // Відправте дані на сервер за допомогою Axios
-            const response = await axios.post('http://localhost:8080/api/login', {
-                username,
-                password,
+            const response = await axios.post('https://denma.azurewebsites.net/api/Account/Login', {
+             email: username,
+             password: password
             });
-
             if (response.status === 200) {
-                // Якщо ви успішно авторизувалися, перенаправте на іншу сторінку, наприклад, "головна"
                 navigate('/main');
             } else {
-                // Обробка інших статусів відповіді, якщо потрібно
                 console.error('Помилка авторизації');
             }
         } catch (error) {
-            // Обробка помилок, які виникли під час відправлення запиту
             console.error('Помилка відправлення запиту:', error.message);
         }
     };

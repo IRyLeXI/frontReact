@@ -1,11 +1,12 @@
 .loginPage {
     display: flex;
+
 }
 
 .loginPanel {
     width: 443px;
     height: 1024px;
-    flex-shrink: 0;
+
     background: #44576D;
     display: flex;
     flex-direction: column;
@@ -24,8 +25,8 @@
 }
 
 .registerText {
-    width: 231px;
-    height: 103px;
+
+
     flex-shrink: 0;
     color: #FFF;
     font-family: Outfit;
@@ -34,12 +35,12 @@
     font-weight: 400;
     line-height: normal;
     position: absolute; /* Встановіть position: absolute для тексту реєстрації */
-    bottom: 40px; /* Встановіть відстань внизу в 40 пікселів */
+    bottom: -120px; /* Встановіть відстань внизу в 40 пікселів */
 }
 
 
 .MainPanel {
-    width: 1478px;
+    width: 1470px;
     height: 1024px;
     flex-shrink: 0;
     background: #1E3F52;

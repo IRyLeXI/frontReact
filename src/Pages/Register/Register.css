@@ -1,0 +1,92 @@
+.RegisterPage {
+    display: flex;
+
+}
+
+.RegisterPanel {
+    width: 443px;
+    height: 1024px;
+    background: #72676F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+.loginText{
+
+    flex-shrink: 0;
+    color: #CAD7F2;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute; /* Встановіть position: absolute для тексту реєстрації */
+    bottom: -120px; /* Встановіть відстань внизу в 40 пікселів */
+}
+
+
+.input1,
+.input2,
+.input3{
+    width: 340px;
+    height: 55px;
+    background: linear-gradient(0deg, #BBCBEE 0%, #BBCBEE 100%), linear-gradient(0deg, #C1E8FF 0%, #C1E8FF 100%), #41877E;
+    margin: 10px;
+}
+
+
+
+
+.RegMainPanel {
+    width: 1470px;
+    height: 1024px;
+    flex-shrink: 0;
+    background: #B79D9B;
+}
+
+.Regbutton {
+    width: 204px;
+    height: 53px;
+    flex-shrink: 0;
+    color: #FFFFFF;
+    font-family: Outfit;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 68px;
+    background: #B79D9B;
+    outline: #B79D9B
+}
+.Regbutton2 {
+    width: 204px;
+    height: 53px;
+    flex-shrink: 0;
+    color: #FFFFFF;
+    font-family: Outfit;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 68px;
+    background: #B79D9B;
+    outline: #B79D9B
+}
+.registerText2
+{
+    flex-shrink: 0;
+    color: #CAD7F2;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute;
+    left: 160px ;
+}
+
