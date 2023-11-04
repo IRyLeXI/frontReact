@@ -35,7 +35,7 @@
     font-weight: 400;
     line-height: normal;
     position: absolute; /* Встановіть position: absolute для тексту реєстрації */
-    bottom: -120px; /* Встановіть відстань внизу в 40 пікселів */
+    bottom: -100px; /* Встановіть відстань внизу в 40 пікселів */
 }
 
 

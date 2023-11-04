@@ -39,7 +39,7 @@ function Login() {
                     <button className="button"
                             onClick={handleLogin} >Login</button>
                 </div>
-                <p className="registerText">Sign up</p>
+                <Link  className="registerText" to="/register">Sign up</Link>
             </div>
             <div className="MainPanel"></div>
         </div>

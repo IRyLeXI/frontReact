@@ -70,9 +70,7 @@ function Register() {
                     </p>
                     <Link  className='registerText2' to="/register/psychologist">Register as Psychologist</Link>
                 </div>
-                <p className="loginText">
-                    Sign in
-                </p>
+                <Link  className="loginText" to="/login">Sign in</Link>
             </div>
             <div className="RegMainPanel"></div>
         </div>

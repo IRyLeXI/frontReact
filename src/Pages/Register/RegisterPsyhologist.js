@@ -69,9 +69,7 @@ function Register() {
                         {passwordsMatch ? '' : 'Passwords do not match'}
                     </p>
                 </div>
-                <p className="loginText">
-                    Sign in
-                </p>
+                <Link  className="loginText" to="/login">Sign in</Link>
             </div>
             <div className="RegMainPanel"></div>
         </div>
