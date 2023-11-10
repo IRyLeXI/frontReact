@@ -3,7 +3,7 @@ import React from "react";
 function MainFooter()
 {
     return( <footer className="footer">
-        {/* Вміст футера */}
+        gg
     </footer>)
 }
 export default MainFooter

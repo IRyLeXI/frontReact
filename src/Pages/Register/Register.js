@@ -72,7 +72,14 @@ function Register() {
                 </div>
                 <Link  className="loginText" to="/login">Sign in</Link>
             </div>
-            <div className="RegMainPanel"></div>
+            <div className="RegMainPanel">
+                <div>
+                    <img className="mainImage2" src="/Group%201.svg"/>
+                </div>
+                <div className="MainPanelText2">Make life easier</div>
+
+            </div>
+
         </div>
     );
 }

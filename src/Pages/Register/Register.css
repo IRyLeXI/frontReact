@@ -46,8 +46,22 @@
     height: 1024px;
     flex-shrink: 0;
     background: #B79D9B;
+    display: flex;
+    flex-direction: column; /* Змінено на вертикальну орієнтацію */
+    align-items: center;
+    justify-content: center;
 }
-
+.mainImage2 {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+.resumeLabel
+{
+    font-size: 20px;
+    margin: 10px;
+    color: #FFFFFF;
+}
 .Regbutton {
     width: 204px;
     height: 53px;
@@ -60,7 +74,8 @@
     line-height: normal;
     border-radius: 68px;
     background: #B79D9B;
-    outline: #B79D9B
+    outline: #B79D9B;
+
 }
 .Regbutton2 {
     width: 204px;
@@ -74,7 +89,8 @@
     line-height: normal;
     border-radius: 68px;
     background: #B79D9B;
-    outline: #B79D9B
+    outline: #B79D9B;
+    margin: 20px;
 }
 .registerText2
 {
@@ -88,5 +104,17 @@
     line-height: normal;
     position: absolute;
     left: 160px ;
+
 }
 
+.MainPanelText2
+{
+    color: #F7F9FF;
+    text-align: center;
+    text-shadow: 4px 4px 15px #090F23;
+    font-family: Kanit;
+    font-size: 62px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

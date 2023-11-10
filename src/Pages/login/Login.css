@@ -16,6 +16,7 @@
 
 }
 
+
 .input1,
 .input2 {
     width: 340px;
@@ -44,7 +45,12 @@
     height: 1024px;
     flex-shrink: 0;
     background: #1E3F52;
+    display: flex;
+    flex-direction: column; /* Змінено на вертикальну орієнтацію */
+    align-items: center;
+    justify-content: center;
 }
+
 
 .button {width: 204px;
     height: 53px;
@@ -58,3 +64,23 @@
     border-radius: 68px;
     background: #162F3E;
 }
+    .mainPanelText
+    {
+        width: 585px;
+        height: 139px;
+        flex-shrink: 0;
+        color: #F7F9FF;
+        text-align: center;
+        text-shadow: 4px 4px 15px #090F23;
+        font-family: Kanit;
+        font-size: 62px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+.mainImage {
+    width: 55%;
+    height: auto;
+    position: relative;
+}
+
