@@ -7,9 +7,9 @@
     }
 
     .header {
-        width: 1564px;
+        width: auto;
         right: 400px ;
-        height: 362px;
+        height: 150px;
         flex-shrink: 0;
         background: #DFEBF6;
     }
@@ -26,6 +26,7 @@
     .container.sidebar-open {
         margin-left: 356px; /* Adjust the width based on your sidebar's width */
         transition: margin-left 0.3s ease;
+
     }
 
     .toggle-sidebar {
@@ -38,10 +39,11 @@
     }
 .form-text
 {
-    padding: 30px 30px 30px 100px;
-    color: #263238;
-    font-family: Cabin;
-    font-size: 32px;
+    padding: 50px 30px 10px 70px;
+    color: #d3e0fa;
+    font-family: Roboto Mono;
+    font-size: 24px;
+    height: auto;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -63,19 +65,36 @@
         flex-shrink: 0;
 
     }
+    .toggle-sidebar-button {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 999;
+        background-color: #44576d;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .toggle-sidebar-button:hover {
+        background-color: #34445c;
+    }
 
     .mainPageForm {
         max-width: 100%;
         margin: 10px;
+         margin-left: 30px;
         height: 356px;
         border-radius: 102px;
-        background: #AAC7D8;
+        background: #44576D;
     }
 
 
 
     .footer {
-        width: 1561px;
+        width: auto;
         height: 229px;
         flex-shrink: 0;
         background:  #C7D3DE;;

@@ -1,0 +1,49 @@
+/* Стилі для контейнера статей */
+.articles-container {
+    display: flex;
+
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Стилі для карточки статті */
+.article-card {
+
+    width: 1500px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 60px;
+    background: #FFFFFF;
+    opacity: 0.95;
+    overflow: hidden;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Стилі для заголовку статті */
+.article-title {
+    font-size: 45px;
+
+    font-weight: 650;
+    margin-bottom: 10px;
+    margin-left:20px;
+}
+
+/* Стилі для тексту статті */
+.article-content {
+    font-size: 30px;
+    line-height: 1.4;
+    margin: 40px;
+
+}
+
+/* Стилі для автора статті */
+.article-author {
+    margin-top: 10px;
+    margin-left: 30px;
+    font-size: 35px;
+    font-style: italic;
+    color: #666;
+}
