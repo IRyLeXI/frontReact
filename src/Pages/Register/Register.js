@@ -26,8 +26,11 @@ function Register() {
                     birthday: birthday
                 });
                 if (response.status === 200) {
-                    const jwtToken = response.data.JwtToken;
-                    localStorage.setItem('jwtToken', jwtToken); // Зберігаємо JWT у localStorage
+                    const jwtToken = response.data.jwtToken;
+                    const  RefreshToken=response.data.refreshToken;
+                    console.log(response);
+                    localStorage.setItem('jwtToken', jwtToken);
+                    localStorage.setItem('refreshToken', RefreshToken);// Зберігаємо JWT у localStorage
                     navigate('/main');
                 } else {
                     console.error('Помилка авторизації');

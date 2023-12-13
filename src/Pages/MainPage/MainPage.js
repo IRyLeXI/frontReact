@@ -8,24 +8,40 @@ import MainPageForm from "./MainPageForm";
 
 import SideBar from "./SideBar";
 import UserSideBar from "../UserPage/UserSideBar";
+import axios from "axios";
 function MainPage() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isAuthorized, setIsAuthorized] = useState(false);
     const jwtToken = localStorage.getItem('jwtToken');
+     const  refreshToken= localStorage.getItem('refreshToken')
     useEffect(() => {
+        const fetchData = async () => {
+            try {
 
-        if (jwtToken) {
-            setIsAuthorized(true);
-        } else {
-            setIsAuthorized(false);
-        }
-    });
+                const response = await axios.get('https://localhost:7224/api/Account/test', {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`
+                    }
+                });
+                console.log(jwtToken);
+                console.log(refreshToken);
+                if (response.status === 200) {
+                    setIsAuthorized(true);
+                    console.log(200);
+                }
+            } catch (error) {
+                setIsAuthorized(false);
+            }
+        };
+
+        fetchData();
+    }, [jwtToken]);
 
     return (
         <div className={`container`}>
             {isAuthorized ? <UserSideBar /> : <SideBar />}
             <div className="content">
-                <MainHeader isAuthenticated={true} />
+                <MainHeader  isAuthenticated={isAuthorized} />
                 <main className="main-content">
                     <div className="row">
                         <div className="column">
