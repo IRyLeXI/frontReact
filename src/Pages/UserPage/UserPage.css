@@ -1,0 +1,76 @@
+/* userPage.css */
+
+.user-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('/public/psyhologistPage 1.svg');
+}
+
+.user-card {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.left-section {
+    padding: 20px;
+    text-align: center;
+    display: flex; /* Додаємо flexbox */
+    flex-direction: column; /* Розміщуємо елементи в колонку */
+    justify-content: center; /* Центруємо вздовж осі Y */
+    align-items: center; /* Центруємо вздовж осі X */
+    flex: 1;
+    max-width: 40%;
+}
+
+.right-section {
+    padding: 20px;
+    flex: 1; /* Додаємо flex: 1 для розширення всередині .user-card */
+    max-width: 60%; /* Нове правило для обмеження ширини правої частини */
+}
+
+
+.user-image {
+    width: 200px;
+    margin-left: 10px;
+    height: 200px;
+    border-radius: 50%;
+    margin-right: 20px; /* Змінено margin-left на margin-right */
+    margin-top: auto; /* Додано margin-top: auto */
+    /*margin-left: 134px;*/
+    margin-bottom: auto; /* Додано margin-bottom: auto */
+    flex-shrink: 0; /* Забороняємо зменшення розміру зображення */
+    background-size: cover;
+    background-position: center;
+}
+
+.edit-button {
+    background-color: green;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    margin-top: 200px;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+}
+
+.edit-button:hover {
+    background-color: darkgreen;
+}
+.user-description {
+    text-align: left;
+    overflow: hidden;
+    height: auto;
+    max-height: 150px; /* Наприклад, обмеження висоти до 150px */
+    word-wrap: break-word; /* Додаємо властивість для переносу тексту */
+}
+
+

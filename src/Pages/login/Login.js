@@ -1,20 +1,30 @@
-import React, {useState} from 'react';
-import {useNavigate, Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import styles from './Login.css'
-
+import styles from './Login.css';
 
 function Login() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        const jwtToken = localStorage.getItem('jwtToken');
+        if (jwtToken) {
+            navigate('/user/page');
+        }
+    }, [navigate]);
+
     const handleLogin = async () => {
         try {
-            const response = await axios.post('https://denma.azurewebsites.net/api/Account/Login', {
-                email: username, password: password
+            const response = await axios.post('https://localhost:7224/api/Account/Login', {
+                email: username,
+                password: password
             });
             if (response.status === 200) {
-                navigate('/main');
+                const jwtToken = response.data.JwtToken;
+                localStorage.setItem('jwtToken', jwtToken);
+                navigate('/user/page');
             } else {
                 console.error('Помилка авторизації');
             }
@@ -22,6 +32,7 @@ function Login() {
             console.error('Помилка відправлення запиту:', error.message);
         }
     };
+
     return (
         <div className="loginPage">
             <div className="loginPanel">
@@ -49,19 +60,12 @@ function Login() {
             </div>
             <div className="MainPanel">
                 <div className="mainImage">
-                    <img src="/svg%20img2.svg"  />
+                    <img src="/svg%20img2.svg" alt="SVG" />
                 </div>
-
                 <div className="mainPanelText">Make life easier</div>
             </div>
         </div>
     );
-
 }
 
-
 export default Login;
-
-
-
-

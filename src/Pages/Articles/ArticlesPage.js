@@ -1,8 +1,10 @@
 import SideBar from "../MainPage/SideBar";
 import React from "react";
 import styles from "./ArcticlesPage.css"
+import UserSideBar from "../UserPage/UserSideBar";
 
 const ArcticlesPage =()=> {
+    const isAuthenticated = true;
     const articles = [
         {
             id:1,
@@ -67,7 +69,7 @@ const ArcticlesPage =()=> {
 
     return(
             <div>
-                <SideBar></SideBar>
+                {isAuthenticated ? <UserSideBar /> : <SideBar />}
                 <div className="events-container">
                     {articles.map(article => (
                         <Articles key={article.id} article={article} />

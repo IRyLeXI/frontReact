@@ -9,10 +9,17 @@ import AllPsychologist from "./Pages/Psyhologists/AllPsyhologist";
 import SinglePsychologist from "./Pages/Psyhologists/Psyholog/Psyholog";
 import Events from "./Pages/Events/Events";
 import ArticlesPage from "./Pages/Articles/ArticlesPage"
+import UserPage from "./Pages/UserPage/UserPage";
+import ChatPage from "./Pages/UserPage/Chats/ChatsPage";
+import Chat from "./Pages/UserPage/Chats/Chat/Chat";
 function AppRouter() {
     return (
         <Router>
             <Routes>
+                <Route path="/chat" element={<Chat/>} />
+
+                <Route path="/chats" element={<ChatPage/>} />
+                <Route path="/user/page" element={<UserPage/>} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/articles" element={<ArticlesPage/>} />
                 <Route path="/login" element={<Login />} />

@@ -6,20 +6,28 @@ import styles from './Register.css';
 function Register() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState(''); // Додали стан для імейла
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [lastname, setLastname] = useState('');
     const [password2, setPassword2] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
+    const [birthday, setBirthday] = useState(''); // Додали стан для дати
 
     const handleRegister = async () => {
         if (password === password2) {
             try {
-                const response = await axios.post('https://denma.azurewebsites.net/api/Account/Register', {
+                const response = await axios.post('https://localhost:7224/api/Account/Register', {
                     username: username,
                     email: email,
-                    password: password
+                    name: name,
+                    lastname: lastname,
+                    password: password,
+                    birthday: birthday
                 });
                 if (response.status === 200) {
+                    const jwtToken = response.data.JwtToken;
+                    localStorage.setItem('jwtToken', jwtToken); // Зберігаємо JWT у localStorage
                     navigate('/main');
                 } else {
                     console.error('Помилка авторизації');
@@ -31,6 +39,7 @@ function Register() {
             setPasswordsMatch(false);
         }
     }
+
 
     return (
         <div className="RegisterPage">
@@ -61,6 +70,24 @@ function Register() {
                         placeholder="Confirm Password"
                         value={password2}
                         onChange={(e) => setPassword2(e.target.value)}
+                    />
+                    <input
+                        className="input1"
+                        value={name}
+                        placeholder="Name"
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <input
+                        className="input1"
+                        value={lastname}
+                        placeholder="Lastname"
+                        onChange={(e) => setLastname(e.target.value)}
+                    />
+                    <input
+                        className="input1"
+                        type="date"
+                        value={birthday}
+                        onChange={(e) => setBirthday(e.target.value)}
                     />
                     <button className="Regbutton" onClick={handleRegister} disabled={!passwordsMatch}>
                         Register

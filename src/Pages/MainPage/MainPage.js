@@ -1,5 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './MainPage.css';
 import MainHeader from "./MainHeader";
 import MainFooter from "./MainFooter";
@@ -7,16 +7,25 @@ import MainPageForm from "./MainPageForm";
 
 
 import SideBar from "./SideBar";
+import UserSideBar from "../UserPage/UserSideBar";
 function MainPage() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const jwtToken = localStorage.getItem('jwtToken');
+    useEffect(() => {
 
+        if (jwtToken) {
+            setIsAuthorized(true);
+        } else {
+            setIsAuthorized(false);
+        }
+    });
 
     return (
-
         <div className={`container`}>
-            <SideBar  />
+            {isAuthorized ? <UserSideBar /> : <SideBar />}
             <div className="content">
-                <MainHeader  />
+                <MainHeader isAuthenticated={true} />
                 <main className="main-content">
                     <div className="row">
                         <div className="column">

@@ -1,8 +1,10 @@
 import React from 'react';
 import './EventsPage.css';
-import SideBar from "../MainPage/SideBar"; // Підключення файлу стилів для цієї сторінки
+import SideBar from "../MainPage/SideBar";
+import UserSideBar from "../UserPage/UserSideBar"; // Підключення файлу стилів для цієї сторінки
 
 const EventsPage = () => {
+    const isAuthenticated = true;
     const events = [
         {
             id: 1,
@@ -39,7 +41,7 @@ const EventsPage = () => {
     ];
 
     return (<div>
-        <SideBar></SideBar>
+            {isAuthenticated ? <UserSideBar /> : <SideBar />}
         <div className="events-container">
             {events.map(event => (
                 <EventCard key={event.id} event={event} />

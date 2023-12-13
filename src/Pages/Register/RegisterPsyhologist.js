@@ -9,7 +9,9 @@ function Register() {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-
+    const [name, setName] = useState(''); // Додали стан для імені
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState(''); // Додали стан для імейла
     const [resume, setresume] = useState('');
     const handleRegister = async () => {
 
@@ -17,7 +19,12 @@ function Register() {
         if (password === password2) {
             try {
                 const response = await axios.post('http://localhost:8080/api/login/work', {
-                    username, password, resume
+                    username: username,
+                    email: email,
+                    name: name, // Додали поле для імені
+                    lastname: lastname, // Додали поле для прізвища
+                    password: password,
+                    resume: resume
                 });
                 if (response.status === 200) {
                     navigate('/main');
@@ -38,8 +45,14 @@ function Register() {
                 <div>
                     <input
                         className="input1"
-                        value={username}
+                        value={email}
                         placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)} // Змінив setUsername на setEmail
+                    />
+                    <input
+                        className="input1"
+                        value={username}
+                        placeholder="username" // Додали інпут для імейла
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
@@ -55,6 +68,18 @@ function Register() {
                         placeholder="Confirm Password"
                         value={password2}
                         onChange={(e) => setPassword2(e.target.value)}
+                    />
+                    <input
+                        className="input1"
+                        value={name}
+                        placeholder="Name"
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <input
+                        className="input1"
+                        value={lastname}
+                        placeholder="Lastname"
+                        onChange={(e) => setLastname(e.target.value)}
                     />
                     <div className="resumeInputContainer">
                         <label className="resumeLabel" htmlFor="resumeInput">

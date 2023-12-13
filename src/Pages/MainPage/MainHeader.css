@@ -1,0 +1,47 @@
+
+.center-text {
+    text-align: center;
+    font-size: 18px; /* Зменшуємо розмір шрифту */
+    letter-spacing: 5px; /* Додаємо відступ між буквами */
+    color: #6b6969;
+    margin-top: -10px;
+}
+
+
+.center-text h1 {
+    font-size: 50px;
+    margin-left: 135px;
+    margin-bottom: 10px;
+
+
+    color: #2778af;
+}
+
+
+.center-text p {
+    margin-top: -10px;
+    font-size: 22px;
+    color: #6b6969;
+}
+
+/* Оформлення для "Login" і "Register" */
+.login-reg-text {
+    float: right; /* Розміщення зправа */
+}
+
+/* Оформлення для лінків */
+.login-reg-text a {
+    color: black;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.login-reg-text a:hover,
+.login-reg-text a:visited,
+.login-reg-text a:active {
+    color: deepskyblue;
+    text-decoration: none;
+}
+
