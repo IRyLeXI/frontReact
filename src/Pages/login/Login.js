@@ -22,8 +22,11 @@ function Login() {
                 password: password
             });
             if (response.status === 200) {
-                const jwtToken = response.data.JwtToken;
+                const jwtToken = response.data.jwtToken;
+                const  RefreshToken=response.data.refreshToken;
+                console.log(response);
                 localStorage.setItem('jwtToken', jwtToken);
+                localStorage.setItem('refreshToken', RefreshToken);
                 navigate('/user/page');
             } else {
                 console.error('Помилка авторизації');

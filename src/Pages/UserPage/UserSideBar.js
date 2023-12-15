@@ -16,7 +16,7 @@ function UserSideBar() {
                         <img className="nav-bar-logo" src="/logo.svg"/>
                     </div>
                     <div className="nav-bar-caption">
-                        <Link to="/main" className="nav-bar-side"> <button className="nav-bar-links">Чати</button> </Link>
+                        <Link to="/chats" className="nav-bar-side"> <button className="nav-bar-links">Чати</button> </Link>
                     </div>
                     <div className="nav-bar-caption">
                         <Link to="/psychologists" className="nav-bar-side"><button className="nav-bar-links">Наші Психологи</button></Link>

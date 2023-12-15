@@ -9,34 +9,22 @@ import MainPageForm from "./MainPageForm";
 import SideBar from "./SideBar";
 import UserSideBar from "../UserPage/UserSideBar";
 import axios from "axios";
+import makeAuthorizedRequest from "../../Helpers/refreshToken";
 function MainPage() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isAuthorized, setIsAuthorized] = useState(false);
-    const jwtToken = localStorage.getItem('jwtToken');
-     const  refreshToken= localStorage.getItem('refreshToken')
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
 
-                const response = await axios.get('https://localhost:7224/api/Account/test', {
-                    headers: {
-                        Authorization: `Bearer ${jwtToken}`
-                    }
-                });
-                console.log(jwtToken);
-                console.log(refreshToken);
-                if (response.status === 200) {
-                    setIsAuthorized(true);
-                    console.log(200);
-                }
-            } catch (error) {
-                setIsAuthorized(false);
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                const authorized = await makeAuthorizedRequest();
+                setIsAuthorized(authorized);
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
             }
         };
 
-        fetchData();
-    }, [jwtToken]);
-
+        checkAuthorization();
+    }, []);
     return (
         <div className={`container`}>
             {isAuthorized ? <UserSideBar /> : <SideBar />}
@@ -46,6 +34,7 @@ function MainPage() {
                     <div className="row">
                         <div className="column">
                             <div className="image-container">
+
                                 <img className="mainImage2" src="/form1.svg" alt={""}/>
                                 <MainPageForm  text="Зв'язок і підтримка — основні аспекти нашої платформи. Тут ви зможете знайти не лише відповіді на ваші питання, але й нові знайомства з людьми, які поділяють ваші цінності та інтереси. Наші психологи готові допомогти вам у всіх життєвих сферах — від особистих взаємин до самопізнання та розвитку. " />
                             </div>

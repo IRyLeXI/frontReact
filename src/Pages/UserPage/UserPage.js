@@ -1,8 +1,29 @@
-import React from 'react';
-import './UserPage.css';
-import UserSideBar from "./UserSideBar"; // Підключаємо файл стилів для userPage
-
+import React, { useEffect, useState } from 'react';
+import UserSideBar from './UserSideBar';
+import refreshToken from '../../Helpers/refreshToken';
+import styles from './UserPage.css';
 function UserPage() {
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                const authorized = await refreshToken();
+                setIsAuthorized(authorized);
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+
+        checkAuthorization();
+    }, []);
+
+    if (!isAuthorized) {
+        return <div>Error: User not authorized.</div>;
+    }
+
+    // Код для відображення сторінки користувача, якщо він авторизований
+
     const user = {
         image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png',
         nickname: 'UserNickname',
