@@ -14,7 +14,7 @@
 
             if (response.status === 200) {
                 console.log("JWT Token new: ",response.data );
-                jwtToken = response.data; // Assuming the new token is returned directly
+                jwtToken = response.data;
                 localStorage.setItem('jwtToken', jwtToken);
                 console.log("JWT Token is refreshed");
                 return true; // Token refreshed successfully

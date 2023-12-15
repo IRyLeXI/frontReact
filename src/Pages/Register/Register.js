@@ -20,7 +20,7 @@ function Register() {
                 const response = await axios.post('https://localhost:7224/api/Account/Register', {
                     username: username,
                     email: email,
-                    name: name,
+                    firstname: name,
                     lastname: lastname,
                     password: password,
                     birthday: birthday

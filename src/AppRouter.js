@@ -12,12 +12,13 @@ import ArticlesPage from "./Pages/Articles/ArticlesPage"
 import UserPage from "./Pages/UserPage/UserPage";
 import ChatPage from "./Pages/UserPage/Chats/ChatsPage";
 import Chat from "./Pages/UserPage/Chats/Chat/Chat";
+import AllUsers from "./Pages/UserPage/AllUsers/AllUsers";
 function AppRouter() {
     return (
         <Router>
             <Routes>
                 <Route path="/chat" element={<Chat/>} />
-
+                <Route path="/users" element={<AllUsers/>} />
                 <Route path="/chats" element={<ChatPage/>} />
                 <Route path="/user/page" element={<UserPage/>} />
                 <Route path="/main" element={<MainPage />} />

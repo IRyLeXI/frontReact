@@ -1,0 +1,89 @@
+. user-messages-button{
+   display: flex;
+
+}
+.user-request-button
+{
+    margin-left: 160px;
+}
+.user-card-username{
+    display: flex;
+    margin-left: 72px;
+
+}
+.user-container {
+    display: flex;
+    background-image: url('/public/psyhologistPage 1.svg');
+    background-size: cover;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Карточка психолога */
+.user-card {
+    background: #e0e0e0;
+    display: flex;
+    position: relative; /* Додаємо позиціонування */
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 20px;
+    width: 50%;
+    height: auto;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+}
+.left-div
+{
+    align-items: center; /* Центруємо вміст горизонтально */
+    text-align: center;
+}
+
+
+.user-img {
+
+    width: 200px;
+    height: 250px;
+    border-radius: 10px;
+
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    margin-right: 20px;
+    margin-bottom: 0; /* Зменшуємо відступ між фото і текстом до 0 */
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Розміщуємо вміст від верхнього краю */
+    width: 70%;
+    font-family: "Felix Titling";
+    font-size: 23px;
+    margin-bottom: 10px;
+    color:#1E3F52;
+
+}
+
+
+.user-details h2 {
+    margin: 5px;
+    color: #1E3F52;
+}
+
+.user-card button {
+    background-color: #3498db;
+    color: #fff;
+    width: auto;
+    position: absolute; /* Робимо кнопку абсолютно позиціонованою відносно блоку */
+    bottom: 20px;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.user-card button:hover {
+    background-color: #2980b9;
+}
