@@ -22,7 +22,13 @@ function UserSideBar() {
                         <Link to="/psychologists" className="nav-bar-side"><button className="nav-bar-links">Наші Психологи</button></Link>
                     </div>
                     <div className="nav-bar-caption">
-                        <Link to="/events" className="nav-bar-side"><button className="nav-bar-links">Друзі</button></Link>
+                        <Link to="/events" className="nav-bar-side"><button className="nav-bar-links">Події</button></Link>
+                    </div>
+                    <div className="nav-bar-caption">
+                        <Link to="/users" className="nav-bar-side"><button className="nav-bar-links">Друзі</button></Link>
+                    </div>
+                    <div className="nav-bar-caption">
+                        <Link to="/requests" className="nav-bar-side"><button className="nav-bar-links">Запрошення</button></Link>
                     </div>
                     <div>
 
