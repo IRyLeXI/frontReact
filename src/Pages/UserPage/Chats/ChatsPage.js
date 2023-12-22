@@ -1,8 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import './ChatPage.css'; // Підключаємо файли стилів
+import './ChatPage.css';
+import UserSideBar from "../UserSideBar";
+import SideBar from "../../MainPage/SideBar";
+import refreshToken from "../../../Helpers/refreshToken"; // Підключаємо файли стилів
 
 function ChatPage() {
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                const authorized = await refreshToken();
+                setIsAuthorized(authorized);
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+
+        checkAuthorization();
+    }, []);
     const chats = [
         {
             username: 'User1',
@@ -23,21 +40,28 @@ function ChatPage() {
     }
 
     return (
-        <div className="chat-page-container">
-            <div className="chat-list">
-                {chats.map((chat, index) => (
-                    <div key={index} className="chat-link" onClick={() => handleClick(chat.username)}>
-                        <div className="chat-item">
-                            <div className="chat-info">
-                                <div className="username">{chat.username}</div>
-                                <div className="full-name">({chat.fullName})</div>
+        <div>
+            {isAuthorized ? <UserSideBar /> : <SideBar />}
+            <div className="chat-page-container">
+
+                <div className="chat-list">
+                    {chats.map((chat, index) => (
+                        <div key={index} className="chat-link" onClick={() => handleClick(chat.username)}>
+                            <div className="chat-item">
+                                <div className="chat-info">
+                                    <div className="username">{chat.username}</div>
+                                    <div className="full-name">({chat.fullName})</div>
+                                </div>
+                                <div className="last-message">{chat.lastMessage}</div>
                             </div>
-                            <div className="last-message">{chat.lastMessage}</div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
+
+
         </div>
+
     );
 }
 

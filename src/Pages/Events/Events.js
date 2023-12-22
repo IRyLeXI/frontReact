@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './EventsPage.css';
 import SideBar from "../MainPage/SideBar";
-import UserSideBar from "../UserPage/UserSideBar"; // Підключення файлу стилів для цієї сторінки
+import UserSideBar from "../UserPage/UserSideBar";
+import makeAuthorizedRequest from "../../Helpers/refreshToken"; // Підключення файлу стилів для цієї сторінки
 
 const EventsPage = () => {
     const isAuthenticated = true;
@@ -39,9 +40,23 @@ const EventsPage = () => {
         }
         // Додайте інші події аналогічно
     ];
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                const authorized = await makeAuthorizedRequest();
+                setIsAuthorized(authorized);
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+
+        checkAuthorization();
+    }, []);
 
     return (<div>
-            {isAuthenticated ? <UserSideBar /> : <SideBar />}
+            {isAuthorized ? <UserSideBar /> : <SideBar />}
         <div className="events-container">
             {events.map(event => (
                 <EventCard key={event.id} event={event} />

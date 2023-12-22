@@ -1,9 +1,29 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import MainFooter from "../MainPage/MainFooter";
 import styles from './AllPsyhologist.css'
 import SideBar from "../MainPage/SideBar";
+import UserSideBar from "../UserPage/UserSideBar";
+import refreshToken from "../../Helpers/refreshToken";
+import axios from "axios";
 const PsychologistsPage = () => {
+
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const authorized = await refreshToken();
+                setIsAuthorized(authorized);
+
+            } catch (error) {
+                console.error('Error during data fetching:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
     const psychologists = [
         {
             id: 1,
@@ -41,7 +61,7 @@ const PsychologistsPage = () => {
 
     return (
         <div >
-          <SideBar></SideBar>
+            {isAuthorized ? <UserSideBar /> : <SideBar />}
             <div className="psychologists-container">
                 {psychologists.map(psychologist => (
                     <PsychologistCard key={psychologist.id} psychologist={psychologist} />

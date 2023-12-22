@@ -25,7 +25,7 @@ function UserSideBar() {
                         <Link to="/events" className="nav-bar-side"><button className="nav-bar-links">Події</button></Link>
                     </div>
                     <div className="nav-bar-caption">
-                        <Link to="/users" className="nav-bar-side"><button className="nav-bar-links">Друзі</button></Link>
+                        <Link to="/users" className="nav-bar-side"><button className="nav-bar-links">Спільнота</button></Link>
                     </div>
                     <div className="nav-bar-caption">
                         <Link to="/requests" className="nav-bar-side"><button className="nav-bar-links">Запрошення</button></Link>

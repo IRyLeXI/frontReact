@@ -4,6 +4,8 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import styles from './UserCard.css';
 import { jwtDecode } from "jwt-decode";
+import UserSideBar from "../UserSideBar";
+import SideBar from "../../MainPage/SideBar";
 
 
 const AllUsers = () => {
@@ -44,7 +46,8 @@ const AllUsers = () => {
     ) : [];
 
     return (
-        <div className="user-container">
+        <div> {isAuthorized ? <UserSideBar /> : <SideBar />}   <div className="user-container">
+
             <input
                 type="text"
                 placeholder="Search by username..."
@@ -54,7 +57,8 @@ const AllUsers = () => {
             {filteredUsers.map(user => (
                 <UserCard key={user.id} user={user} navigate={navigate}/>
             ))}
-        </div>
+        </div></div>
+
     );
 };
 

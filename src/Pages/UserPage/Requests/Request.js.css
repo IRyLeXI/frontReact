@@ -1,0 +1,53 @@
+.request-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 450px; /* Задаємо висоту карточки */
+    width: 400px; /* Задаємо ширину карточки */
+    background-color: #cecece;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Додаємо тінь */
+    padding: 20px;
+    text-align: center;
+    margin: 35px; /* Встановлюємо відступи для розташування карточок */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.request-card img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%; /* Округлюємо аватар */
+    margin-bottom: 10px;
+}
+
+.request-card h3 {
+    margin: 0;
+}
+
+.request-card .request-actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.request-card button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.request-card button:hover {
+    background-color: #2980b9;
+}
+.request-cards-container {
+    display: flex;
+    justify-content: center; /* Розміщення елементів по горизонталі по центру */
+
+    height: 100vh; /* Задаємо висоту на всю висоту екрану */
+}
