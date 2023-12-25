@@ -1,55 +1,19 @@
-import React, { useState } from 'react';
-import './Chat.css'; // Підключаємо файли стилів
+import SendMessageForm from './SendMessageForm';
+import MessageContainer from './MessageContainer';
+import { Button } from 'react-bootstrap';
+import   './Chat.css'
+import React from "react";
+const Chat = ({ sendMessage, messages,  closeConnection }) => <div className="chat-page">
+    <div className='leave-room'>
+        <Button className='leave-room' variant='danger' onClick={() => closeConnection()}>Chats</Button>
+    </div>
+    <div className='chat'>
+        <MessageContainer messages={messages} />
+        <SendMessageForm sendMessage={sendMessage} />
+    </div>
+    <div className="chat-image">
+        <img src="/123.svg" alt="SVG" />
+    </div>
+</div>
 
-function FullChatPage() {
-    const username = localStorage.getItem('chatname');
-
-
-
-    const initialMessages = [
-        { id: 1, text: 'Hello!', sender: 'User1' },
-        { id: 2, text: 'Hi there!', sender: username },
-        // Додайте більше повідомлень за необхідності
-    ];
-
-    const [messages, setMessages] = useState(initialMessages);
-    const [newMessage, setNewMessage] = useState('');
-
-    const handleMessageSend = () => {
-        if (newMessage.trim() !== '') {
-            const newMsg = {
-                id: messages.length + 1,
-                text: newMessage,
-                sender: username,
-            };
-            setMessages([...messages, newMsg]);
-            setNewMessage('');
-        }
-    };
-
-    return (
-        <div className="chat-container">
-            <div className="chat-header">
-                <h3>{username}</h3>
-            </div>
-            <div className="chat-messages">
-                {messages.map((message) => (
-                    <div key={message.id} className={message.sender === username ? 'my-message' : 'other-message'}>
-                        <p>{message.text}</p>
-                    </div>
-                ))}
-            </div>
-            <div className="chat-input">
-                <input
-                    type="text"
-                    placeholder="Type a message..."
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                />
-                <button onClick={handleMessageSend}>Send</button>
-            </div>
-        </div>
-    );
-}
-
-export default FullChatPage;
+export default Chat;

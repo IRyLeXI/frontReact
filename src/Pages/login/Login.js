@@ -8,12 +8,12 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        const jwtToken = localStorage.getItem('jwtToken');
-        if (jwtToken) {
-            navigate('/user/page');
-        }
-    }, [navigate]);
+    // useEffect(() => {
+    //     const jwtToken = localStorage.getItem('jwtToken');
+    //     if (jwtToken) {
+    //         navigate('/user/page');
+    //     }
+    // }, [navigate]);
 
     const handleLogin = async () => {
         try {

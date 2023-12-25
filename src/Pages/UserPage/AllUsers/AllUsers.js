@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import refreshToken from '../../../Helpers/refreshToken';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styles from './UserCard.css';
 import { jwtDecode } from "jwt-decode";
 import UserSideBar from "../UserSideBar";
@@ -65,6 +65,7 @@ const AllUsers = () => {
 
 const UserCard = ({user, navigate}) => {
     function handleMessageClick() {
+      localStorage.setItem("user2Id",user.id)
 
 
     }
@@ -93,8 +94,8 @@ const UserCard = ({user, navigate}) => {
             <div className="user-details">
                 <h2>{`${user.firstName} ${user.lastName}`}</h2>
                 <div>
-                    <button className="user-messages-button" onClick={handleMessageClick}>Send message</button>
-                    <button className="user-request-button" onClick={handleRequestClick}>Request friendship</button>
+                    <Link to={"/chats"} className="user-messages-button"  onClick={handleMessageClick}><button className="user-messages-button">Send message</button></Link>
+                    <button className="user-request-button" onClick={() => handleRequestClick}>Request friendship</button>
 
                 </div>
             </div>
