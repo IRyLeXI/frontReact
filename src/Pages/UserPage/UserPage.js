@@ -5,6 +5,7 @@ import styles from './UserPage.css';
 import SideBar from "../MainPage/SideBar";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
+import {Link} from "react-router-dom";
 function UserPage() {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [user, setUser]= useState();
@@ -62,7 +63,7 @@ function UserPage() {
                         <div className="right-section">
                             <p className="user-description">{user.description}</p>
                             
-                            <button className="edit-button" onClick={handleEditAccount}>Edit Account</button>
+                        <Link to="/user/page/edit"><button className="edit-button" onClick={handleEditAccount}>Edit Account</button> </Link>
                         </div>
                     </div>
                 )}

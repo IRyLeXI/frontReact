@@ -11,14 +11,23 @@ const MessageContainer = ({ messages }) => {
         }
     }, [messages]);
 
-    return <div ref={messageRef} className='message-container' >
-        {messages.map((m, index) =>
-            <div key={index} className='user-message'>
-                <div className='message bg-primary'>{m.message}</div>
-                <div className='from-user'>{m.user}</div>
-            </div>
-        )}
-    </div>
+    return (
+        <div ref={messageRef} className='message-container'>
+            {messages.map((m, index) => (
+                <div
+                    key={index}
+                    className={`user-message ${m.user === 'user1' ? 'from-left' : 'from-right'}`}
+                >
+                    <div className={`message bg-primary ${m.user === 'user1' ? 'left' : 'right'}`}>
+                        {m.message}
+                    </div>
+                    <div className={`from-user ${m.user === 'user1' ? 'from-left' : 'from-right'}`}>
+                        {m.user}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
 }
 
 export default MessageContainer;

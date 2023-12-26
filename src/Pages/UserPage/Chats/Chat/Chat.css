@@ -10,7 +10,7 @@ background-color: #162F3E;
 }
 
 .chat-image{
-  margin-left:  -1250px;
+  margin-left:  -900px;
     margin-top: -290px;
     scale: 45%;
 
@@ -34,7 +34,7 @@ background-color: #162F3E;
 }
 
 .message-container {
-    margin-left: 40px;
+    margin-left: 10px;
 
     height: 800px;
     width: 60%;
@@ -46,43 +46,65 @@ background-color: #162F3E;
 }
 
 .user-message {
-    word-wrap: break-word;
-    margin-bottom: 10px;
-   margin-left: 90px;
+    display: flex;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.message {
-
+.user-message .message {
     padding: 8px;
-    border-radius: 5px;
+    border-radius: 15px;
     color: black;
+    background-color: #eaeaea;
+    margin-bottom: 5px;
 }
+
+.user-message.from-right .message {
+    background-color: #d0e8f2;
+    align-self: flex-end;
+}
+
+.user-message.from-left .message {
+    background-color: #e6f2d6;
+    align-self: flex-start;
+}
+
 
 .from-user {
     font-size: 0.8em;
 
     color: #999;
 }
-
+.form-send{
+    margin-left: 50px;
+    height: 60px;
+    width: 585px;
+}
 .input-group {
-
-margin-left: 40px;
-
+margin-left: 20px;
+    width: auto;
     margin-bottom: 10px;
 }
+.send-message-form{
+    margin-left: 10px;
+    width: 585px;
 
+}
 
 .form-control {
     border-radius: 5px;
-     height: 45px;
-    width: 61%;
+     height: 15px;
+    width: 90%;
     word-wrap: break-word;
 }
 
 .btn-primary {
 
     border-radius: 5px;
-    height: 25px;
+    height: 30px;
+    width: 30%;
+    background-color: #6b6969;
 
 }
 
@@ -104,5 +126,6 @@ margin-left: 40px;
 }
 
 .message-container::-webkit-scrollbar-track {
+
     background-color: #f5f5f5;
 }

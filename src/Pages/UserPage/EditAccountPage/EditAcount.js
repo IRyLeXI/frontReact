@@ -6,6 +6,7 @@ import './EditAcount.css'
 import { jwtDecode } from "jwt-decode";
 import UserSideBar from "../UserSideBar";
 import SideBar from "../../MainPage/SideBar";
+import {Link} from "react-router-dom";
 
 function UpdateUser() {
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -17,7 +18,8 @@ function UpdateUser() {
         Birthday: '',
         Username: '',
         Email: '',
-        Description: ''
+        Description: '',
+        Password:''
     });
 
     useEffect(() => {
@@ -43,19 +45,29 @@ function UpdateUser() {
     }, []);
 
     const updateUser = async () => {
-        console.log(newUser);
-        console.log(user);
+        const jwtToken=localStorage.getItem("jwtToken")
+        console.log(newUser)
         try {
-            let response=  axios.put(`https://localhost:7224/api/User/${user.id}`, {
-                username: newUser.Username,
-                firstname: newUser.FirstName,
-                lastname: newUser.LastName,
-                avatar: newUser.Avatar,
-                birthday: newUser.Birthday,
-                description: newUser.Description,
-                email: newUser.Email,
-            }
-            )
+
+            let response = await axios.put(
+                `https://localhost:7224/api/User/${user.id}`,
+                {
+                    username: newUser.Username,
+                    firstname: newUser.FirstName,
+                    lastname: newUser.LastName,
+                    avatar: newUser.Avatar,
+                    birthday: newUser.Birthday,
+                    description: newUser.Description,
+                    email: newUser.Email,
+                    password: newUser.Password,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`
+                    }
+                }
+            );
+
 
         } catch (error) {
             console.error('Error updating user:', error);
@@ -76,9 +88,10 @@ function UpdateUser() {
                              User Name:
                             <input
                                 type="text"
-                                value={newUser.UserName}
-                                onChange={(e) => setNewUser({ ...newUser,UserName: e.target.value })}
+                                value={newUser.Username}
+                                onChange={(e) => setNewUser({ ...newUser, Username: e.target.value })}
                             />
+
                         </label>
                         <label>
                             Email:
@@ -122,6 +135,14 @@ function UpdateUser() {
                             />
                         </label>
                         <label>
+                            Password:
+                            <input
+                                type="text"
+                                value={newUser.Password}
+                                onChange={(e) => setNewUser({ ...newUser,Password: e.target.value })}
+                            />
+                        </label>
+                        <label>
                             Description:
                             <input
                                 type="text"
@@ -129,7 +150,7 @@ function UpdateUser() {
                                 onChange={(e) => setNewUser({ ...newUser,Description: e.target.value })}
                             />
                         </label>
-                        <button type="submit">Update</button>
+                    <Link to="/user/page"> <button type="submit">Update</button></Link>
                     </form>
                 </div>
             </div>

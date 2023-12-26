@@ -23,7 +23,8 @@ function Register() {
                     firstname: name,
                     lastname: lastname,
                     password: password,
-                    birthday: birthday
+                    birthday: birthday,
+                    avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"
                 });
                 if (response.status === 200) {
                     const jwtToken = response.data.jwtToken;

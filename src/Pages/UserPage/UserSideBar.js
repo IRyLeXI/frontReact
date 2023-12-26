@@ -16,6 +16,9 @@ function UserSideBar() {
                         <img className="nav-bar-logo" src="/logo.svg"/>
                     </div>
                     <div className="nav-bar-caption">
+                        <Link to="/main" className="nav-bar-side"> <button className="nav-bar-links">Основна</button> </Link>
+                    </div>
+                    <div className="nav-bar-caption">
                         <Link to="/chats" className="nav-bar-side"> <button className="nav-bar-links">Чати</button> </Link>
                     </div>
                     <div className="nav-bar-caption">
@@ -29,6 +32,9 @@ function UserSideBar() {
                     </div>
                     <div className="nav-bar-caption">
                         <Link to="/requests" className="nav-bar-side"><button className="nav-bar-links">Запрошення</button></Link>
+                    </div>
+                    <div className="nav-bar-caption">
+                        <Link to="/video" className="nav-bar-side"><button className="nav-bar-links">Відео звінок</button></Link>
                     </div>
                     <div>
 

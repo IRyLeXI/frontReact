@@ -8,14 +8,19 @@ import {HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 import {jwtDecode} from "jwt-decode";
 import Chat from "./Chat/Chat";
 import axios from "axios";
+import {compareArraysAsSet} from "@testing-library/jest-dom/dist/utils";
 
 
 function ChatPage(props) {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [connection, setConnection] = useState();
+    const [users, setUsers] = useState({});
     const [messages, setMessages] = useState([]);
     const  user2Id = localStorage.getItem("user2Id");
-    const [chats,setChats] = useState();
+    const [chats,setChats] = useState([]);
+
+
+
 
     useEffect(() => {
 
@@ -32,13 +37,16 @@ function ChatPage(props) {
         const AllChats=async () => {
             let decoded = jwtDecode(localStorage.getItem("jwtToken"));
             let jwtToken = localStorage.getItem("jwtToken")
-            console.log(decoded.Id)
+            console.log("our User id " +decoded.Id)
+
             const response = await axios.get(`https://localhost:7224/api/Chats/${decoded.Id}`, {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`
                 }
             });
+            setChats(response.data);
             console.log(response);
+
         }
 
 
@@ -47,10 +55,20 @@ function ChatPage(props) {
             joinRoom(decoded.Id,user2Id);
         }
 
-        console.log(connection);
-        console.log(user2Id);
-        AllChats();
         checkAuthorization();
+        const fetchData = async () => {
+            try {
+                await checkAuthorization();
+                await AllChats();
+
+
+            } catch (ex) {
+                console.error('Error fetching data:', ex);
+            }
+        };
+
+        fetchData();
+        console.log(users)
     }, []);
 
     const joinRoom = async (User1Id, User2Id) => {
@@ -63,11 +81,6 @@ function ChatPage(props) {
             connection.on("ReceiveMessage", (user, message) => {
                 setMessages(messages => [...messages, { user, message }]);
             });
-
-            // connection.on("UsersInRoom", (users) => {
-            //   setUsers(users);
-            // });
-
             connection.onclose(e => {
                 setConnection();
                 setMessages([]);
@@ -83,6 +96,10 @@ function ChatPage(props) {
 
             console.log("messageList + " + messageList);
             setConnection(connection);
+
+            console.log("Connection established:", connection);
+            console.log("user2id= ", user2Id);
+
         } catch (e) {
             console.log(e);
         }
@@ -100,6 +117,8 @@ function ChatPage(props) {
     const closeConnection = async () => {
         try {
             await connection.invoke("CloseConnection");
+            localStorage.removeItem("user2Id")
+            console.log("connection closed")
             await connection.stop();
         } catch (e) {
             console.log(e);
@@ -107,34 +126,41 @@ function ChatPage(props) {
     }
 
 
-    function handleClick(username) {
-        localStorage.setItem('chatname', username);
-        window.location.href = '/chat'; // Перехід на новий URL
-    }
 
+    const handleChatClick = (user1Id) => {
+
+        if( jwtDecode(localStorage.getItem("jwtToken")).Id==user1Id)
+        {
+            localStorage.setItem("user2Id", user2Id);
+            window.location.reload(); // Перезавантажити сторінку для оновлення чату
+        }
+        else{
+            localStorage.setItem("user2Id", user1Id);
+            window.location.reload();
+        }
+    };
 
     return (
         <div>
             {isAuthorized ? <UserSideBar /> : <SideBar />}
-            {!connection  ? <div className="chat-page-container">
-
-                <div className="chat-list">
-                    {/*{chats.map((chat, index) => (*/}
-                    {/*    <div key={index} className="chat-link" onClick={() => handleClick(chat.username)}>*/}
-                    {/*        <div className="chat-item">*/}
-                    {/*            <div className="chat-info">*/}
-                    {/*                <div className="username">{chat.username}</div>*/}
-                    {/*                <div className="full-name">({chat.fullName})</div>*/}
-                    {/*            </div>*/}
-                    {/*            <div className="last-message">{chat.lastMessage}</div>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*))}*/}
+            {!connection ? (
+                <div className="chat-page-container">
+                    <div className="chat-list">
+                        {chats && chats.map((chat, index) => (
+                            <div key={index} className="chat-link" onClick={() => handleChatClick(chat.chatHub.user2)}>
+                                <div className="chat-item">
+                                    <div className="chat-info">
+                                        <div className="username">{chat.username}</div>
+                                        <div className="full-name">({chat.username})</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
-
-                : <Chat sendMessage={sendMessage} messages={messages}  closeConnection={closeConnection} />}
-
+            ) : (
+                <Chat sendMessage={sendMessage} messages={messages}  closeConnection={closeConnection} />
+            )}
 
 
         </div>

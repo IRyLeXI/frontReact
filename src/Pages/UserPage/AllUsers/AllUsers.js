@@ -65,21 +65,26 @@ const AllUsers = () => {
 
 const UserCard = ({user, navigate}) => {
     function handleMessageClick() {
-      localStorage.setItem("user2Id",user.id)
-
+        let decoded = jwtDecode(localStorage.getItem("jwtToken"))
+        if(decoded.Id!=user.id) {
+            localStorage.setItem("user2Id", user.id)
+        }
 
     }
     function handleRequestClick() {
+
         let decoded = jwtDecode(localStorage.getItem("jwtToken"))
         console.log(decoded.Id+"--------"+ user.id);
-      let response=  axios.post("https://localhost:7224/api/Friends/SendRequest", {
-            user1id: decoded.Id,
-            user2id: user.id
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-            }
-        })
+        if(decoded.Id!=user.id) {
+            let response = axios.post("https://localhost:7224/api/Friends/SendRequest", {
+                user1id: decoded.Id,
+                user2id: user.id
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+                }
+            })
+        }
     }
     return (
         <div className="user-card">
