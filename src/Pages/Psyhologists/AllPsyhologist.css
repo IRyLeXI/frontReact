@@ -4,6 +4,7 @@
 
 .psychologists-container {
     display: flex;
+    height: 100vh;
     background-image: url('/public/psyhologistPage 1.svg');
     background-size: cover;
     flex-direction: column;

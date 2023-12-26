@@ -16,13 +16,14 @@ import AllUsers from "./Pages/UserPage/AllUsers/AllUsers";
 import Requests from "./Pages/UserPage/Requests/Requests";
 import Edit from "./Pages/UserPage/EditAccountPage/EditAcount";
 import AdminPanel from "./Pages/AdminPanel/AdminPanel";
-
+import VideoChat from "./Pages/VideoChat/VideoChat";
 
 function AppRouter() {
     return (
         <Router>
             <Routes>
                 <Route path="/requests" element={<Requests/>} />
+                <Route path="/video" element={<VideoChat/>} />
                 <Route path="/admin/panel" element={<AdminPanel/>} />
                 <Route path="/user/page/edit" element={<Edit/>} />
                 <Route path="/chat" element={<Chat/>} />

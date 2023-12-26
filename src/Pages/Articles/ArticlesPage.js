@@ -1,10 +1,30 @@
 import SideBar from "../MainPage/SideBar";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./ArcticlesPage.css"
 import UserSideBar from "../UserPage/UserSideBar";
+import refreshToken from "../../Helpers/refreshToken";
+import {jwtDecode} from "jwt-decode";
+import axios from "axios";
 
 const ArcticlesPage =()=> {
-    const isAuthenticated = true;
+
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                const authorized = await refreshToken();
+                setIsAuthorized(authorized);
+
+
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+
+        checkAuthorization();
+    }, []);
     const articles = [
         {
             id:1,
@@ -69,7 +89,7 @@ const ArcticlesPage =()=> {
 
     return(
             <div>
-                {isAuthenticated ? <UserSideBar /> : <SideBar />}
+                {isAuthorized ? <UserSideBar /> : <SideBar />}
                 <div className="events-container">
                     {articles.map(article => (
                         <Articles key={article.id} article={article} />
