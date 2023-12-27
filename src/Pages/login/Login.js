@@ -64,6 +64,7 @@ function Login() {
             <div className="MainPanel">
                 <div className="mainImage">
                     <img src="/svg%20img2.svg" alt="SVG" />
+
                 </div>
                 <div className="mainPanelText">Make life easier</div>
             </div>

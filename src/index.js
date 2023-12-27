@@ -4,6 +4,7 @@ import AppRouter from './AppRouter';
 import './index.css';
 
 ReactDOM.render(
+
     <React.StrictMode>
         <AppRouter />
     </React.StrictMode>,

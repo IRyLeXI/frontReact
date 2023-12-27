@@ -4,64 +4,102 @@
 }
 
 .RegisterPanel {
-    width: 443px;
-    height: 1024px;
+    max-width: 443px;
+    width: 90%;
+    height: 100vh;
     background: #72676F;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-
+    position: relative;
 }
-.loginText{
 
+.loginText {
     flex-shrink: 0;
-    color: #CAD7F2;
-    text-align: center;
-    font-family: Kanit;
+    color: #FFF;
+    font-family: Outfit;
     font-size: 22px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    position: absolute; /* Встановіть position: absolute для тексту реєстрації */
-    bottom: -100px; /* Встановіть відстань внизу в 40 пікселів */
-}
+    position: absolute;
+    left: 190px;
+    bottom: 10px;
 
+
+
+
+}
 
 .input1,
 .input2,
-.input3{
+.input3 {
     width: 340px;
-    height: 55px;
+    height: 25px;
     background: linear-gradient(0deg, #BBCBEE 0%, #BBCBEE 100%), linear-gradient(0deg, #C1E8FF 0%, #C1E8FF 100%), #41877E;
     margin: 10px;
 }
 
-
-
-
 .RegMainPanel {
-    width: 1470px;
-    height: 1024px;
-    flex-shrink: 0;
+    width: 100%;
+    height: 100vh;
     background: #B79D9B;
     display: flex;
-    flex-direction: column; /* Змінено на вертикальну орієнтацію */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative; /* Додали позицію для коректного позиціонування тексту */
 }
+
 .mainImage2 {
-    width: 100%;
+    width: 90%;
+    max-width: 100%;
     height: auto;
+    display: block;
     position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Змінив маржу для відступу від тексту */
 }
-.resumeLabel
-{
+.Regbutton2{
+    width: 400px;
+    height: 53px;
+    flex-shrink: 0;
+    color: #FFFFFF;
+    font-family: Outfit;
+    font-size: 32px;
+    font-style: normal;
+  margin-left: 20px;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 68px;
+    background: #B79D9B;
+    outline: #B79D9B;
+}
+.MainPanelText2 {
+    color: #F7F9FF;
+    text-shadow: 4px 4px 15px #090F23;
+    font-family: Kanit;
+    font-size: 62px;
+    font-style: normal;
+    font-weight: 400;
+
+    line-height: normal;
+    text-align: center; /* Додав вирівнювання тексту по центру */
+    margin-top: 25px;
+ margin-left: 290px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.resumeLabel {
     font-size: 20px;
     margin: 10px;
     color: #FFFFFF;
 }
+
 .Regbutton {
     width: 204px;
     height: 53px;
@@ -76,25 +114,10 @@
     border-radius: 68px;
     background: #B79D9B;
     outline: #B79D9B;
+}
 
-}
-.Regbutton2 {
-    width: 204px;
-    height: 53px;
-    flex-shrink: 0;
-    color: #FFFFFF;
-    font-family: Outfit;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    border-radius: 68px;
-    background: #B79D9B;
-    outline: #B79D9B;
-    margin: 20px;
-}
-.registerText2
-{
+
+.registerText2 {
     flex-shrink: 0;
     color: #CAD7F2;
     text-align: center;
@@ -104,18 +127,6 @@
     font-weight: 400;
     line-height: normal;
     position: absolute;
-    left: 160px ;
-
+    left: 160px;
 }
 
-.MainPanelText2
-{
-    color: #F7F9FF;
-    text-align: center;
-    text-shadow: 4px 4px 15px #090F23;
-    font-family: Kanit;
-    font-size: 62px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}

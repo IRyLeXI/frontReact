@@ -99,9 +99,11 @@ function Register() {
                     <p className="passwordMismatch">
                         {passwordsMatch ? '' : 'Passwords do not match'}
                     </p>
+
                     <Link  className='registerText2' to="/register/psychologist">Register as Psychologist</Link>
+                    <Link  className="loginText" to="/login">Sign in</Link>
                 </div>
-                <Link  className="loginText" to="/login">Sign in</Link>
+
             </div>
             <div className="RegMainPanel">
                 <div>

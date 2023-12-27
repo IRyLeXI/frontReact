@@ -1,33 +1,32 @@
 .loginPage {
     display: flex;
-
+    justify-content: center;
+    align-items: center;
 }
 
 .loginPanel {
-    width: 443px;
-    height: 1024px;
-
+    max-width: 443px;
+    width: 90%; /* Змінив ширину на відсоток для адаптивності */
+    height: 100vh;
     background: #44576D;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-
+    position: relative; /* Додав позицію для registerText */
 }
-
 
 .input1,
 .input2 {
-    width: 340px;
+    width: 90%; /* Змінив ширину на відсоток для адаптивності */
+    max-width: 340px;
     height: 55px;
     background: linear-gradient(0deg, #BBCBEE 0%, #BBCBEE 100%), linear-gradient(0deg, #C1E8FF 0%, #C1E8FF 100%), #41877E;
     margin: 10px;
 }
 
 .registerText {
-
-
     flex-shrink: 0;
     color: #FFF;
     font-family: Outfit;
@@ -35,53 +34,61 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    position: absolute; /* Встановіть position: absolute для тексту реєстрації */
-    bottom: -100px; /* Встановіть відстань внизу в 40 пікселів */
+    position: absolute;
+    bottom: 10px;
 }
-
 
 .MainPanel {
-    width: 1470px;
-    height: 1024px;
-    flex-shrink: 0;
+    width: 100%; /* Змінив ширину на відсоток для адаптивності */
+    height: 100vh;
     background: #1E3F52;
     display: flex;
-    flex-direction: column; /* Змінено на вертикальну орієнтацію */
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Додана властивість */
+
 }
 
-
-.button {width: 204px;
+.button {
+    width: 204px;
     height: 53px;
     flex-shrink: 0;
     color: #D2D2D2;
+    margin-left: 115px;
     font-family: Outfit;
     font-size: 32px;
-    margin-left: 110px;
+    margin-top: 10px; /* Змінив маржу для відступу від текстових полів */
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     border-radius: 68px;
     background: #162F3E;
 }
-    .mainPanelText
-    {
-        width: 585px;
-        height: 139px;
-        flex-shrink: 0;
-        color: #F7F9FF;
-        text-align: center;
-        text-shadow: 4px 4px 15px #090F23;
-        font-family: Kanit;
-        font-size: 62px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-    }
-.mainImage {
-    width: 55%;
-    height: auto;
-    position: relative;
+
+.mainPanelText {
+    max-width: 585px;
+    width: 90%; /* Змінив ширину на відсоток для адаптивності */
+    height: auto; /* Змінив на автоматичну висоту */
+    margin-top: 20px; /* Змінив маржу для відступу від кнопки */
+    color: #F7F9FF;
+    text-align: center;
+    text-shadow: 4px 4px 15px #090F23;
+    font-family: Kanit;
+    font-size: 62px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
+.mainImage {
+    width: 90%; /* Змінив ширину на відсоток для адаптивності */
+    max-width: 100%; /* або встановіть конкретний розмір */
+    height: auto; /* збереження співвідношення сторін */
+    display: block; /* для коректного відображення */
+    height: auto;
+    margin-left: 30%;
+    position: relative;
+    margin-top: 20px; /* Змінив маржу для відступу від тексту */
+    margin-bottom: 0px; /* Змінив маржу для відступу від краю блоку */
+}

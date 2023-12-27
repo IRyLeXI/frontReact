@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
 import styles from './Register.css';
@@ -13,24 +13,41 @@ function Register() {
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState(''); // Додали стан для імейла
     const [resume, setresume] = useState('');
+    const [details, setdetails] = useState('');
+    const [birthday, setBirthday] = useState(''); // Додали стан для дати
+    const [jwt,setJwt] =useState(null)
     const handleRegister = async () => {
 
 
         if (password === password2) {
             try {
-                const response = await axios.post('http://localhost:8080/api/login/work', {
-                    username: username,
-                    email: email,
-                    name: name, // Додали поле для імені
-                    lastname: lastname, // Додали поле для прізвища
-                    password: password,
-                    resume: resume
-                });
-                if (response.status === 200) {
-                    navigate('/main');
-                } else {
+                  console.log(username,email,name,lastname,password,birthday,details)
+                    const createResponse= await axios.post(`https://localhost:7224/api/Account/Register`,
+                        {
+                            username: username,
+                            email: email,
+                            firstname: name,
+                            lastname: lastname,
+                            password: password,
+                            birthday: birthday,
+                            avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"
+
+                        })
+                if (createResponse.status === 200) {
+                    const jwtToken = createResponse.data.jwtToken;
+                    setJwt(jwtToken);
+
+                    const  RefreshToken=createResponse.data.refreshToken;
+                    localStorage.setItem('jwtToken', jwtToken);
+                    localStorage.setItem('refreshToken', RefreshToken);// Зберігаємо JWT у localStorage
+
+                }
+                else {
                     console.error('Помилка авторизації');
                 }
+
+
+
             } catch (error) {
                 console.error('Помилка відправлення запиту:', error.message);
             }
@@ -38,6 +55,37 @@ function Register() {
             setPasswordsMatch(false);
         }
     }
+
+     useEffect( () => {
+
+         const fetchData =async () => {
+             if (jwt != null) {
+                 const formData = new FormData();
+                 formData.append('description', details);
+                 formData.append('resume', resume);
+
+                 const response = await axios.post(
+                     'https://localhost:7224/api/Account/PsychologistConfirm',
+                     formData,
+                     {
+                         headers: {
+                             Authorization: `Bearer ${jwt}`,
+                             'Content-Type': 'multipart/form-data',
+                         },
+                     }
+                 );
+
+                 if (response.status === 200) {
+                     navigate('/main');
+                 } else {
+                     console.error('Помилка авторизації');
+                 }
+             }
+         }
+         fetchData();
+
+
+     },[jwt])
 
     return (
         <div className="RegisterPage">
@@ -81,13 +129,25 @@ function Register() {
                         placeholder="Lastname"
                         onChange={(e) => setLastname(e.target.value)}
                     />
+                    <input
+                        className="input1"
+                        value={details}
+                        placeholder="resumeDetails"
+                        onChange={(e) => setdetails(e.target.value)}
+                    />
+                    <input
+                        className="input1"
+                        type="date"
+                        value={birthday}
+                        onChange={(e) => setBirthday(e.target.value)}
+                    />
                     <div className="resumeInputContainer">
                         <label className="resumeLabel" htmlFor="resumeInput">
                             Resume:
                         </label>
                         <input
                             id="resumeInput"
-                            onChange={(e) => setresume(e.target.value)}
+                            onChange={(e) => setresume(e.target.files[0])}
                             type="file"
                         />
                     </div>
