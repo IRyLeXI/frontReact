@@ -5,6 +5,7 @@ import axios from "axios";
 import UserSideBar from "../UserPage/UserSideBar";
 import SideBar from "../MainPage/SideBar";
 import AdminSidebar from "./AdminSidebar";
+import {Link} from "react-router-dom";
 
 const AdminPanel = () => {
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -56,21 +57,34 @@ const AdminPanel = () => {
     }, []);
 
     return (
-        <div>
-            {isAdmin ? <AdminSidebar/> : <SideBar />}
-            <div>lox</div>
-            {isAdmin ? (
-                <div>
-                    <div>123</div>
+                    <div>
 
-                </div>
-            ) : (
-                <div>
-                   12
-                </div>
-            )}
-        </div>
+                        {requests && requests.length > 0 ? (
+                            requests.map((request) => (
+                                <UserCard key={request.id} request={request} />
+                            ))
+                        )
+
+                            : (
+                            <p>No requests found</p>
+                        )}
+                    </div>
+
     );
 }
+
+
+
+const UserCard = ({ request }) => {
+    if(request.resume!=null) console.log(1);
+    return (
+        <div className="user-card">
+            <h3>{request.id}</h3>
+            <Link to={`/pdf-viewer`} state={{ file: request.resume }}>Open PDF</Link>
+        </div>
+    );
+};
+
+
 
 export default AdminPanel;

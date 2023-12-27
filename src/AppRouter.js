@@ -17,11 +17,13 @@ import Requests from "./Pages/UserPage/Requests/Requests";
 import Edit from "./Pages/UserPage/EditAccountPage/EditAcount";
 import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import VideoChat from "./Pages/VideoChat/VideoChat";
+import PdfViewer from "./Pages/AdminPanel/PdfViewer";
 
 function AppRouter() {
     return (
         <Router>
             <Routes>
+                <Route path="/pdf-viewer" element={<PdfViewer/>} />
                 <Route path="/requests" element={<Requests/>} />
                 <Route path="/video" element={<VideoChat/>} />
                 <Route path="/admin/panel" element={<AdminPanel/>} />

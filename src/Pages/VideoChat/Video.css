@@ -1,5 +1,6 @@
 .container-video-page {
     display: grid;
+
     grid-template-columns: 7fr 3fr;
 }
 
