@@ -57,7 +57,7 @@ function MainPage() {
                             </div>
                     </div>
                 </main>
-                <MainFooter />
+
             </div>
         </div>
     );

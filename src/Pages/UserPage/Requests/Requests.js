@@ -5,16 +5,20 @@ import styles from "./Request.js.css"
 import { jwtDecode } from "jwt-decode";
 import UserSideBar from "../UserSideBar";
 import SideBar from "../../MainPage/SideBar";
+import "./Request.js.css"
 
 // Define the RequestCard component separately
 const RequestCard = ({ req }) => {
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
+        let decoded = jwtDecode(localStorage.getItem("jwtToken"));
+
         async function findUserById() {
             try {
                 const response = await axios.get(`https://localhost:7224/api/User/Id/${req.user1Id}`);
                 if (response.status === 200) {
+                    console.log(response.data)
                     setUserData(response.data);
                 }
             } catch (error) {
@@ -41,15 +45,16 @@ const RequestCard = ({ req }) => {
     };
 
     return (
-        <div className="request-cards-container">  <div className="request-card">
+        <div className="request-cards-container">
+            <div className="request-card-user">
             {userData && (
-                <div>
+                <div >
                     <img src={userData.avatar} alt="Avatar" /> {/* Відображення аватара */}
                     <h3>{userData.username}</h3> {/* Відображення імені користувача */}
                     <div className="request-actions">
                         <button onClick={() =>Request(userData.id,1)}>Accept</button>
                         <button onClick={() => Request(userData.id,2)}>Decline</button>
-                        <button onClick={() => Request(userData.id,3)}>Block</button>{/* Кнопка для відхилення запиту */}
+                        <button onClick={() => Request(userData.id,3)}>Block</button>
                     </div>
                 </div>
             )}
@@ -101,13 +106,13 @@ const Requests = () => {
     return (
         <div>
             {isAuthorized ? <UserSideBar /> : <SideBar />}
-            {Allrequests ===null ? (
+            {Array.isArray(Allrequests) && Allrequests.length > 0 ? (
 
                 Allrequests.map((request) => (
                     <RequestCard key={request.id} req={request} />
                 ))
             ) : (
-                <p> Loading...</p>
+                <p>No requests</p>
             )}
         </div>
     );

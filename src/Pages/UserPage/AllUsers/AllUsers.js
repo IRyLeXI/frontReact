@@ -9,6 +9,7 @@ import SideBar from "../../MainPage/SideBar";
 
 
 const AllUsers = () => {
+    let decoded = jwtDecode(localStorage.getItem("jwtToken"))
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [userList, setUserList] = useState(undefined);
     const [searchText, setSearchText] = useState(''); // Стан для зберігання тексту пошуку
@@ -42,13 +43,14 @@ const AllUsers = () => {
 
     // Фільтрація списку користувачів за текстом пошуку
     const filteredUsers = userList ? userList.filter(user =>
-        user.username.toLowerCase().includes(searchText.toLowerCase())
+        user.username.toLowerCase().includes(searchText.toLowerCase()) && user.id !== decoded.Id
     ) : [];
+
 
     return (
         <div> {isAuthorized ? <UserSideBar /> : <SideBar />}   <div className="user-container">
 
-            <input
+            <input className="find-user"
                 type="text"
                 placeholder="Search by username..."
                 value={searchText}
@@ -71,21 +73,32 @@ const UserCard = ({user, navigate}) => {
         }
 
     }
-    function handleRequestClick() {
-
-        let decoded = jwtDecode(localStorage.getItem("jwtToken"))
-        console.log(decoded.Id+"--------"+ user.id);
-        if(decoded.Id!=user.id) {
-            let response = axios.post("https://localhost:7224/api/Friends/SendRequest", {
-                user1id: decoded.Id,
-                user2id: user.id
-            }, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-                }
-            })
+    async function handleRequestClick() {
+        let decoded = jwtDecode(localStorage.getItem("jwtToken"));
+        console.log(decoded.Id + "--------" + user.id);
+        if (decoded.Id !== user.id) {
+            try {
+                const response = await axios.post(
+                    "https://localhost:7224/api/Friends/SendRequest",
+                    {
+                        user1id: decoded.Id,
+                        user2id: user.id
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+                        }
+                    }
+                );
+                console.log("Friendship request sent:", response.data);
+                // Додайте тут логіку для обробки успішності запиту
+            } catch (error) {
+                console.error("Error sending friendship request:", error);
+                // Додайте тут логіку для обробки помилки
+            }
         }
     }
+
     return (
         <div className="user-card">
             <div className="left-div"><img
@@ -100,7 +113,7 @@ const UserCard = ({user, navigate}) => {
                 <h2>{`${user.firstName} ${user.lastName}`}</h2>
                 <div>
                     <Link to={"/chats"} className="user-messages-button"  onClick={handleMessageClick}><button className="user-messages-button">Send message</button></Link>
-                    <button className="user-request-button" onClick={() => handleRequestClick}>Request friendship</button>
+                    <button className="user-request-button" onClick={() => {handleRequestClick()}}>Request friendship</button>
 
                 </div>
             </div>

@@ -11,6 +11,9 @@
     margin-left: 72px;
 
 }
+.find-user{
+    width: 50%;
+}
 .user-container {
     display: flex;
     background-image: url('/public/psyhologistPage 1.svg');
@@ -44,7 +47,7 @@
 .user-img {
 
     width: 200px;
-    height: 250px;
+    height: 200px;
     border-radius: 10px;
 
     aspect-ratio: 3 / 4;

@@ -1,9 +1,9 @@
-.request-card {
+.request-card-user {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 450px; /* Задаємо висоту карточки */
-    width: 400px; /* Задаємо ширину карточки */
+    width: 400px;
     background-color: #cecece;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Додаємо тінь */
@@ -16,9 +16,11 @@
 .request-card img {
     width: 200px;
     height: 200px;
-    border-radius: 50%; /* Округлюємо аватар */
+    border-radius: 50%;
     margin-bottom: 10px;
 }
+
+
 
 .request-card h3 {
     margin: 0;
@@ -48,6 +50,7 @@
 .request-cards-container {
     display: flex;
     justify-content: center; /* Розміщення елементів по горизонталі по центру */
+    background-image: url('/public/psyhologistPage 1.svg');
 
     height: 100vh; /* Задаємо висоту на всю висоту екрану */
 }

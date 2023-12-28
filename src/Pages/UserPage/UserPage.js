@@ -58,7 +58,6 @@ function UserPage() {
                             <div className="user-image" style={{ backgroundImage: `url(${user.avatar})` }}></div>
                             <h1>{user.username}</h1>
                             <p>{user.firstName} {user.lastName}</p>
-                            <p>Friends: {user.friendsCount}</p>
                         </div>
                         <div className="right-section">
                             <p className="user-description">{user.description}</p>
