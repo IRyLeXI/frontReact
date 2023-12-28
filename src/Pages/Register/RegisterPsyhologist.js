@@ -30,7 +30,7 @@ function Register() {
                             lastname: lastname,
                             password: password,
                             birthday: birthday,
-                            avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"
+                            avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"
 
                         })
                 if (createResponse.status === 200) {

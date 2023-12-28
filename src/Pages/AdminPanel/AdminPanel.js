@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import UserSideBar from "../UserPage/UserSideBar";
 import SideBar from "../MainPage/SideBar";
-import AdminSidebar from "./AdminSidebar";
+import "./AdminPanel.css"
 import {Link} from "react-router-dom";
 
 const AdminPanel = () => {
@@ -20,11 +20,12 @@ const AdminPanel = () => {
                 setIsAuthorized(authorized);
 
                 if (authorized) {
+                    console.log(localStorage.getItem("jwtToken"))
                     let decoded = jwtDecode(localStorage.getItem("jwtToken"));
                     const response = await axios.get(`https://localhost:7224/api/User/Id/${decoded.Id}`);
                     if (response.status === 200) {
                         setUser(response.data);
-                        console.log(response.data);
+
                     }
                 }
             } catch (ex) {
@@ -51,13 +52,14 @@ const AdminPanel = () => {
             else
                 setIsAdmin(false);
         };
+
         GetAllResumes();
         checkAuthorization();
 
     }, []);
 
     return (
-                    <div>
+                    <div className="request-page-container">
 
                         {requests && requests.length > 0 ? (
                             requests.map((request) => (
@@ -76,12 +78,75 @@ const AdminPanel = () => {
 
 
 const UserCard = ({ request }) => {
-    if(request.resume!=null) console.log(1);
+    const [user,setUser] =useState()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`https://localhost:7224/api/User/Id/${request.userId}`);
+                if (response.status === 200) {
+                    setUser(response.data);
+                    console.log(response.data);
+                }
+
+            } catch (error) {
+                console.error('Error during data fetching:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleAccept =async (id) => {
+
+        let jwtToken = localStorage.getItem("jwtToken")
+        console.log(jwtToken)
+        const response = await axios.put(`https://localhost:7224/api/Admin/Accept/${id}`, null, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`
+            }
+        })
+        if(response.status===200)
+        {
+            window.location.reload();
+        }
+    }
+    const handleReject =async (id) => {
+        let jwtToken = localStorage.getItem("jwtToken")
+        const response = await axios.put(`https://localhost:7224/api/Admin/Reject/${id}`,null, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`
+            }
+        });
+        if(response.status===200)
+        {
+            window.location.reload(); // або window.location.href = window.location.href;
+
+        }
+        }
+
     return (
-        <div className="user-card">
-            <h3>{request.id}</h3>
-            <Link to={`/pdf-viewer`} state={{ file: request.resume }}>Open PDF</Link>
+        <div className="request-container">
+            {user && (
+                <div className="request-card">
+                    <div className="request-left-section">
+                        <div className="request-image" style={{ backgroundImage: `url(${user.avatar})` }}></div>
+                        <h1>{user.username}</h1>
+                        <p>{user.firstName} {user.lastName}</p>
+                    </div>
+                    <div className="request-right-section">
+                        <p className="request-description">{request.description}</p>
+                        <div className="request-buttons">
+                            <button onClick={() => handleAccept(request.id)}>Accept</button>
+                            <button onClick={() => handleReject(request.id)}>Decline</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            )}
         </div>
+
     );
 };
 
