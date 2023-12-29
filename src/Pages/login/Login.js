@@ -32,7 +32,7 @@ function Login() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Login', {
+            const response = await axios.post(' https://cors-everywhere.herokuapp.com/http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Login', {
                 email: username,
                 password: password
             });
