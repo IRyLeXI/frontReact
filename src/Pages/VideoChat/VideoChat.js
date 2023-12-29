@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import PhoneIcon from '@mui/icons-material/Phone';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React, { useEffect, useRef, useState } from "react"
 
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
@@ -11,9 +12,16 @@ import Peer from "simple-peer"
 
 import "./Video.css"
 import { jwtDecode } from "jwt-decode"
+import refreshToken from "../../Helpers/refreshToken";
+import axios from "axios";
+import UserSideBar from "../UserPage/UserSideBar";
+import SideBar from "../MainPage/SideBar";
+import {useNavigate} from "react-router-dom";
 
 function VideoChat() {
     const [me, setMe] = useState("")
+    const navigate = useNavigate();
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const [stream, setStream] = useState()
     const [receivingCall, setReceivingCall] = useState(false)
     const [caller, setCaller] = useState("")
@@ -31,11 +39,28 @@ function VideoChat() {
     const [username, setUsername] = useState('')
 
 
+
     useEffect(() => {
 
+        const checkAuthorization = async () => {
+            try {
+                if (localStorage.getItem("jwtToken") != null) {
+                   let response =await refreshToken();
+                    setIsAuthorized(response)
+                   if(!response) {
+                       navigate("/main");
+                   }
+                }
+
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+        checkAuthorization();
         const fetchData = async () => {
+
             const hubConnection = new HubConnectionBuilder()
-                .withUrl("https://localhost:7224/api/videochat")``
+                .withUrl("http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/videochat")
                 .configureLogging(LogLevel.Information)
                 .build();
 
@@ -65,13 +90,20 @@ function VideoChat() {
 
         }
 
+        const GetWithoutVideo = () => {
+            setIsCameraOn(false);
+            navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
+                setStream(stream)
+                myVideo.current.srcObject = stream
+            }).catch(e => console.log(e));
+        }
+
         fetchData();
 
-        navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
             setStream(stream)
             myVideo.current.srcObject = stream
-        })
-
+        }).catch(e => GetWithoutVideo());
 
     }, [])
 
@@ -163,6 +195,20 @@ function VideoChat() {
             setIsMuted(!isMuted);
         }
     };
+    const theme = createTheme({
+        // Define your theme here (optional)
+        // For example:
+        palette: {
+            mode: 'light',
+          primary: {
+
+            main: '#1e88e5',
+          },
+          secondary: {
+            main: '#ff1744',
+          },
+        },
+    });
 
     const handleToggleCamera = () => {
         if (stream) {
@@ -175,80 +221,90 @@ function VideoChat() {
     };
 
     return (
-        <div className="full-page">
-            <h1 style={{ textAlign: "center", color: '#fff' }}></h1>
-            <div className="container-video-page">
-                <div className="video-container">
-                    <div className="video">
-                        {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "500px" }} />}
-                    </div>
-                    <div className="video">
-                        {callAccepted && !callEnded ?
-                            <video playsInline ref={userVideo} autoPlay style={{ width: "500px" }} /> :
-                            null}
-                    </div>
-                </div>
-                <div className="myId">
-                    <h3 className="call-username">
-                        {username}
-                    </h3>
-                    <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
-                        <Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
-                            Copy ID
-                        </Button>
-                    </CopyToClipboard>
+        <div>
+            {isAuthorized ? (
+                <ThemeProvider theme={theme}>
+                    <div className="full-page">
+                        <h1 style={{ textAlign: "center", color: '#fff' }}></h1>
+                        <div className="container-video-page">
+                            <div className="video-container">
+                                <div className="video">
+                                    {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "500px" }} />}
+                                </div>
+                                <div className="video">
+                                    {callAccepted && !callEnded ?
+                                        <video playsInline ref={userVideo} autoPlay style={{ width: "500px" }} /> :
+                                        null}
+                                </div>
+                            </div>
+                            <div className="myId">
+                                <h3 className="call-username">
+                                    {username}
+                                </h3>
+                                <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
+                                    <Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
+                                        Copy ID
+                                    </Button>
+                                </CopyToClipboard>
 
-                    <TextField
-                        id="filled-basic"
-                        label="ID to call"
-                        variant="filled"
-                        value={idToCall}
-                        onChange={(e) => setIdToCall(e.target.value)}
-                    />
-                    <div className="call-button">
-                        {callAccepted && !callEnded ? (
-                            <div>
-                                <Button variant="contained" color="secondary" onClick={handleLeave}>
-                                    End Call
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color={isMuted ? "default" : "primary"}
-                                    onClick={handleToggleMute}
-                                >
-                                    {isMuted ? "Unmute Mic" : "Mute Mic"}
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color={isCameraOn ? "default" : "primary"}
-                                    onClick={handleToggleCamera}
-                                >
-                                    {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
-                                </Button>
+                                <TextField
+                                    id="filled-basic"
+                                    label="ID to call"
+                                    variant="filled"
+                                    value={idToCall}
+                                    onChange={(e) => setIdToCall(e.target.value)}
+                                />
+                                <div className="call-button">
+                                    {callAccepted && !callEnded ? (
+                                        <div>
+                                            <Button variant="contained" color="primary" onClick={handleLeave}>
+                                                End Call
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color={isMuted ? "secondary" : "primary"}
+                                                onClick={handleToggleMute}
+                                            >
+                                                {isMuted ? "Unmute Mic" : "Mute Mic"}
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color={isCameraOn ? "secondary" : "primary"}
+                                                onClick={handleToggleCamera}
+                                            >
+                                                {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <IconButton color="primary" aria-label="call" onClick={() => callUser(idToCall)}>
+                                                <PhoneIcon fontSize="large" />
+                                            </IconButton>
+                                            {idToCall}
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    {receivingCall && !callAccepted ? (
+                                        <div className="caller">
+                                            <h1 >{name} is calling...</h1>
+                                            <Button variant="contained" color="primary" onClick={answerCall}>
+                                                Answer
+                                            </Button>
+                                        </div>
+                                    ) : null}
+                                </div>
                             </div>
-                        ) : (
-                            <div>
-                                <IconButton color="primary" aria-label="call" onClick={() => callUser(idToCall)}>
-                                    <PhoneIcon fontSize="large" />
-                                </IconButton>
-                                {idToCall}
-                            </div>
-                        )}
+                        </div>
                     </div>
-                    <div>
-                        {receivingCall && !callAccepted ? (
-                            <div className="caller">
-                                <h1 >{name} is calling...</h1>
-                                <Button variant="contained" color="primary" onClick={answerCall}>
-                                    Answer
-                                </Button>
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
-            </div>
+                </ThemeProvider>
+            ) : (
+                <div>not authorized</div>
+            )}
         </div>
     );
+
+
 }
 
 export default VideoChat

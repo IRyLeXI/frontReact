@@ -33,7 +33,10 @@
 .right-section {
     padding: 20px;
     flex: 1; /* Додаємо flex: 1 для розширення всередині .user-card */
-    max-width: 60%; /* Нове правило для обмеження ширини правої частини */
+    max-width: 60%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -51,10 +54,11 @@
     background-position: center;
 }
 
-.edit-button {
+.edit-button-user {
     background-color: green;
     color: white;
     padding: 8px 16px;
+
     border: none;
     margin-top: 200px;
     border-radius: 4px;
@@ -62,7 +66,7 @@
     outline: none;
 }
 
-.edit-button:hover {
+.edit-button-user:hover {
     background-color: darkgreen;
 }
 .user-description {

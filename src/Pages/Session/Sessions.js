@@ -5,7 +5,7 @@ import refreshToken from "../../Helpers/refreshToken";
 import UserSideBar from "../UserPage/UserSideBar";
 import SideBar from "../MainPage/SideBar";
 import "./Sessions.css"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import AddSession from "./CreateSession";
 const Sessions = () => {
     const [sessions, setSessions] = useState([]);
@@ -14,9 +14,24 @@ const Sessions = () => {
     const [selectedSession, setSelectedSession] = useState(null);
     const [selectedUser,setSelectedUser]= useState(null)
     const [expandedSessions, setExpandedSessions] = useState({});
-
+    const navigate = useNavigate();
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
     useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                if (localStorage.getItem("jwtToken") != null) {
+                    let response =await refreshToken();
+                    if(!response) {
+                        navigate("/main");
+                    }
+                }
+
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+        checkAuthorization();
         fetchData();
     }, []);
 
@@ -27,10 +42,13 @@ const Sessions = () => {
 
         console.log("our User id " + decoded.Id);
         const authorized = await refreshToken();
+        setIsAuthorized(authorized)
+        console.log(isAuthorized);
+
 
         if (authorized) {
             const response = await axios.get(
-                `https://localhost:7224/api/Sessions/Psychologist/${decoded.Id}`,
+                `http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Sessions/Psychologist/${decoded.Id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -63,7 +81,7 @@ console.log("lox")
 
     };
     const handleSessionClick = async (session) => {
-        const response = await axios.get(`https://localhost:7224/api/User/Id/${session.userId}`);
+        const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/User/Id/${session.userId}`);
         if (response.status === 200) {
             setSelectedUser(response.data);
         }
@@ -92,7 +110,7 @@ console.log("lox")
         console.log(expandedSessions)
         console.log(session)
         if (session.id) {
-            const response = await axios.delete(`https://localhost:7224/api/Sessions/Delete/${session.id}`,
+            const response = await axios.delete(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Sessions/Delete/${session.id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${jwtToken}`
@@ -112,6 +130,8 @@ console.log("lox")
     };
 
     return (
+        <>
+            {isAuthorized ? (
         <div className="user-container">
             <div className="card">
                 <div className="notes-section">
@@ -151,6 +171,10 @@ console.log("lox")
                 </div>
             </div>
         </div>
+    ) : (
+        <div>Not authorized</div>
+    )}
+</>
     );
 };
 

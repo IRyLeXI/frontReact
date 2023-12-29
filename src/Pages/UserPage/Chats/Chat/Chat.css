@@ -1,6 +1,5 @@
-/* Chat.css */
-.chat-page{
-background-color: #162F3E;
+.chat-page {
+    background-color: #162F3E;
     height: 100vh;
     display: flex;
 
@@ -9,8 +8,8 @@ background-color: #162F3E;
 
 }
 
-.chat-image{
-  margin-left:  -900px;
+.chat-image {
+    margin-left: -900px;
     margin-top: -290px;
     scale: 45%;
 
@@ -33,9 +32,10 @@ background-color: #162F3E;
 
 }
 
+
 .message-container {
     margin-left: 10px;
-
+    display:list-item;
     height: 800px;
     width: 60%;
     background-color: #ffffff;
@@ -47,46 +47,86 @@ background-color: #162F3E;
 
 .user-message {
     display: flex;
-    max-width: 70%;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 80%;
+    /* margin-left: auto;
+    margin-right: auto; */
+    margin-right: 5%;
+    margin-left: 5%;
+
 }
 
 .user-message .message {
+    display: flex;
     padding: 8px;
     border-radius: 15px;
     color: black;
     background-color: #eaeaea;
     margin-bottom: 5px;
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.1);
 }
 
 .user-message.from-right .message {
     background-color: #d0e8f2;
-    align-self: flex-end;
+    max-width: 40%;
+    word-break: break-word;
+    margin-left: auto;
+    margin-right: -13%;
+    border: 2px #b6d6e4 solid;
+
+
 }
 
 .user-message.from-left .message {
     background-color: #e6f2d6;
-    align-self: flex-start;
+    justify-content: flex-start;
+    max-width: 40%;
+    word-break: break-word;
+    border: 2px #d7e6c4 solid;
 }
 
 
-.from-user {
+.from-user.from-right {
     font-size: 0.8em;
-
     color: #999;
+    border: 2px black solid;
+    margin-left: auto;
+
 }
-.form-send{
+
+.from-user.from-left {
+    font-size: 0.8em;
+    color: #999;
+    margin-left: 5px;
+}
+
+.message-send-date-left{
+    font-size:11px;
+    margin-left: 5%;
+    margin-bottom: 5px;
+}
+
+.message-send-date-right{
+    font-size:11px;
+    text-align: right;
+    margin-right: 5%;
+    margin-bottom: 5px;
+}
+
+
+
+.form-send {
     margin-left: 50px;
     height: 60px;
     width: 585px;
 }
+
 .input-group {
-margin-left: 20px;
+    margin-left: 20px;
     width: auto;
     margin-bottom: 10px;
 }
-.send-message-form{
+
+.send-message-form {
     margin-left: 10px;
     width: 585px;
 
@@ -94,7 +134,7 @@ margin-left: 20px;
 
 .form-control {
     border-radius: 5px;
-     height: 15px;
+    height: 15px;
     width: 90%;
     word-wrap: break-word;
 }

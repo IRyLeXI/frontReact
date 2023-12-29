@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Register.css';
+import refreshToken from "../../Helpers/refreshToken";
 
 function Register() {
     const navigate = useNavigate();
@@ -14,10 +15,29 @@ function Register() {
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [birthday, setBirthday] = useState(''); // Додали стан для дати
 
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                if (localStorage.getItem("jwtToken") != null) {
+                    let response =await refreshToken();
+                    console.log(response)
+                    if(response)
+                    {
+                        navigate("/main");
+                    }
+
+                }
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+        checkAuthorization();
+    }, []);
+
     const handleRegister = async () => {
         if (password === password2) {
             try {
-                const response = await axios.post('https://localhost:7224/api/Account/Register', {
+                const response = await axios.post('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Register', {
                     username: username,
                     email: email,
                     firstname: name,

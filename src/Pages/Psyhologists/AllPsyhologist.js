@@ -14,7 +14,7 @@ const PsychologistsPage = () => {
     useEffect(() => {
         const getAllPsychologists = async () => {
             try {
-                const response = await axios.get(`https://localhost:7224/api/Psychologist/GetAll`);
+                const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Psychologist/GetAll`);
                 if (response.status === 200) {
                     setPsychologists(response.data);
                     console.log(response.data);

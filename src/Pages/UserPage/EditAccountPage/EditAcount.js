@@ -30,7 +30,7 @@ function UpdateUser() {
 
                 if (authorized) {
                     let decoded = jwtDecode(localStorage.getItem("jwtToken"));
-                    const response = await axios.get(`https://localhost:7224/api/User/Id/${decoded.Id}`);
+                    const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/User/Id/${decoded.Id}`);
                     if (response.status === 200) {
                         setUser(response.data);
                         console.log(response.data);
@@ -50,7 +50,7 @@ function UpdateUser() {
         try {
 
             let response = await axios.put(
-                `https://localhost:7224/api/User/${user.id}`,
+                `http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/User/${user.id}`,
                 {
                     username: newUser.Username,
                     firstname: newUser.FirstName,
@@ -160,7 +160,7 @@ function UpdateUser() {
 
         return (<div>
                 <SideBar></SideBar>
-                <div>Loading..!!!!!.</div>
+                <div> Ooops...</div>
         </div>
 
     );

@@ -1,36 +1,55 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import "./CreateSession.css"
+import refreshToken from "../../Helpers/refreshToken";
 const AddSession = () => {
     const decoded = jwtDecode(localStorage.getItem("jwtToken"));
-
+    const navigate = useNavigate();
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const [sessionData, setSessionData] = useState({
-        PsychologistId: "decoded.Id",
+        PsychologistId: decoded.Id,
         Name: "",
         BeginDate: "",
         EndDate: "",
         Description: "",
         Friends: [],
-        UserId: ""
+
+        UserId: "",
+        FriendId:""
     });
     useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                if (localStorage.getItem("jwtToken") != null) {
+                    let response =await refreshToken();
+                    setIsAuthorized(response)
+                    if(!response) {
+                        navigate("/main");
+                    }
+                }
 
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+        checkAuthorization();
         const fetchFriends = async () => {
             try {
-                const friendsResponse = await axios.get(`https://localhost:7224/api/Friends/${decoded.Id}`);
+                const friendsResponse = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224//api/Friends/${decoded.Id}`);
                 if (friendsResponse.status === 200) {
                     console.log(friendsResponse.data);
 
                     const friendsArray = friendsResponse.data.map(friend => ({
                         firstName: friend.firstName,
                         lastName: friend.lastName,
-                        id:friend.Id
+                        id:friend.id
                     }));
 
                     setSessionData({ ...sessionData, Friends: friendsArray });
                     console.log(sessionData)
+                    console.log(decoded.Id)
                 }
             } catch (error) {
                 console.error("Помилка при отриманні списку друзів:", error);
@@ -45,36 +64,44 @@ const AddSession = () => {
     };
 
     const handleFriendChange = (e) => {
-        const { value } = e.target;
-        setSessionData({ ...sessionData, UserId: value });
+        const selectedIndex = e.target.selectedIndex-1;
+
+         const friendId = sessionData.Friends[selectedIndex].Id;
+
+         setSessionData({ ...sessionData, UserId: e.target.value, FriendId: friendId });
+
+
     };
+
+
 
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Забезпечте виконання цієї функції
         let jwtToken = localStorage.getItem("jwtToken")
+
         try {
-        //     const friendsResponse = await axios.post(
-        //         `https://localhost:7224/api/Sessions/Create`,
-        //         {
-        //             PsychologistId: decoded.Id,
-        //             UserId: sessionData.UserId,
-        //             Name: sessionData.Name,
-        //             BeginDate: sessionData.BeginDate,
-        //             EndDate: sessionData.EndDate,
-        //             Description: sessionData.Description
-        //         },
-        //         {
-        //             headers: {
-        //                 Authorization: `Bearer ${jwtToken}`
-        //             }
-        //         }
-        //     );
-        //
-        //     if (friendsResponse.status === 200) {
-        //         console.log(friendsResponse.data);
-        //         // Ваша логіка для успішної відповіді...
-        //     }
+            const friendsResponse = await axios.post(
+                `http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Sessions/Create`,
+                {
+                    PsychologistId: decoded.Id,
+                    UserId: sessionData.UserId,
+                    Name: sessionData.Name,
+                    BeginDate: sessionData.BeginDate,
+                    EndDate: sessionData.EndDate,
+                    Description: sessionData.Description
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`
+                    }
+                }
+            );
+
+            if (friendsResponse.status === 200) {
+                console.log(friendsResponse.data);
+                // Ваша логіка для успішної відповіді...
+            }
             console.log(sessionData)
         } catch (error) {
             console.error("Помилка при створенні сесії:", error);
@@ -83,6 +110,8 @@ const AddSession = () => {
 
 
     return (
+        <>
+            {isAuthorized ? (
         <div className="session-card-create">
             <h2>Додати сесію</h2>
             <form onSubmit={handleSubmit}>
@@ -130,13 +159,14 @@ const AddSession = () => {
                     <select
                         className="select-friend"
                         id="friends"
-                        name="Friend"
-                        value={sessionData.UserId}
+                        name="FriendId"
+                        value={sessionData.FriendId}
                         onChange={handleFriendChange}
                     >
+                        <option value="" disabled>Select User</option>
                         {sessionData.Friends.map((friend, index) => (
-                            <option key={index} value={friend.Id}> {/* Використовуйте friend.Id */}
-                                {friend.firstName + " " + friend.lastName}
+                            <option key={index} value={friend.id}>
+                                {friend.firstName + " " + friend.lastName + " " + friend.id}
                             </option>
                         ))}
                     </select>
@@ -147,6 +177,10 @@ const AddSession = () => {
 
             </form>
         </div>
+            ) : (
+                <div>Not authorized</div>
+            )}
+        </>
     );
 
 };

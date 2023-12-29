@@ -83,7 +83,7 @@ const UserCard = ({ request }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://localhost:7224/api/User/Id/${request.userId}`);
+                const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/User/Id/${request.userId}`);
                 if (response.status === 200) {
                     setUser(response.data);
                     console.log(response.data);
@@ -101,7 +101,7 @@ const UserCard = ({ request }) => {
 
         let jwtToken = localStorage.getItem("jwtToken")
         console.log(jwtToken)
-        const response = await axios.put(`https://localhost:7224/api/Admin/Accept/${id}`, null, {
+        const response = await axios.put(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Admin/Accept/${id}`, null, {
             headers: {
                 Authorization: `Bearer ${jwtToken}`
             }
@@ -113,7 +113,7 @@ const UserCard = ({ request }) => {
     }
     const handleReject =async (id) => {
         let jwtToken = localStorage.getItem("jwtToken")
-        const response = await axios.put(`https://localhost:7224/api/Admin/Reject/${id}`,null, {
+        const response = await axios.put(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Admin/Reject/${id}`,null, {
             headers: {
                 Authorization: `Bearer ${jwtToken}`
             }

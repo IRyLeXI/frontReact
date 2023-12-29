@@ -18,7 +18,7 @@ function UserPage() {
 
                 if (authorized) {
                     let decoded = jwtDecode(localStorage.getItem("jwtToken"));
-                    const response = await axios.get(`https://localhost:7224/api/User/Id/${decoded.Id}`);
+                    const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/User/Id/${decoded.Id}`);
                     if (response.status === 200) {
                         setUser(response.data);
                         console.log(response.data);
@@ -54,6 +54,8 @@ function UserPage() {
             <div className="user-page-container">
                 {user && (
                     <div className="user-card">
+
+
                         <div className="left-section">
                             <div className="user-image" style={{ backgroundImage: `url(${user.avatar})` }}></div>
                             <h1>{user.username}</h1>
@@ -62,7 +64,7 @@ function UserPage() {
                         <div className="right-section">
                             <p className="user-description">{user.description}</p>
                             
-                        <Link to="/user/page/edit"><button className="edit-button" onClick={handleEditAccount}>Edit Account</button> </Link>
+                        <Link to="/user/page/edit"><button className="edit-button-user" onClick={handleEditAccount}>Edit Account</button> </Link>
                         </div>
                     </div>
                 )}

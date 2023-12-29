@@ -6,7 +6,7 @@
         console.log("Refresh Token: ", refreshToken);
 
         try {
-            const response = await axios.post('https://localhost:7224/api/Account/RefreshToken', refreshToken, {
+            const response = await axios.post('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/RefreshToken', refreshToken, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -33,7 +33,7 @@
         console.log("JWT Token: ", localStorage.getItem('jwtToken'));
 
         try {
-            const response = await axios.get('https://localhost:7224/api/Account/test', {
+            const response = await axios.get('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/test', {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`
                 }
@@ -54,7 +54,7 @@
                 if (tokenRefreshed) {
 
                     console.log("Refreshed token success");
-                    const retryResponse = await axios.get('https://localhost:7224/api/Account/test', {
+                    const retryResponse = await axios.get('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224//api/Account/test', {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
                         }

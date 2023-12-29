@@ -1,20 +1,21 @@
-. user-messages-button{
+. user-messages-button-all-users{
    display: flex;
 
+
 }
-.user-request-button
+.user-request-button-all-users
 {
     margin-left: 160px;
 }
-.user-card-username{
+.user-card-username-all-users{
     display: flex;
     margin-left: 72px;
 
 }
-.find-user{
+.find-user-all-users{
     width: 50%;
 }
-.user-container {
+.user-container-all-users {
     display: flex;
     background-image: url('/public/psyhologistPage 1.svg');
     background-size: cover;
@@ -25,26 +26,27 @@
 }
 
 /* Карточка психолога */
-.user-card {
+.user-card-all-users {
     background: #e0e0e0;
     display: flex;
     position: relative; /* Додаємо позиціонування */
     overflow: hidden;
     border-radius: 10px;
     padding: 20px;
+    flex-direction: column;
     width: 50%;
     height: auto;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
 }
-.left-div
+.left-div-all-users
 {
     align-items: center; /* Центруємо вміст горизонтально */
     text-align: center;
 }
 
 
-.user-img {
+.user-img-all-users {
 
     width: 200px;
     height: 200px;
@@ -56,7 +58,7 @@
     margin-bottom: 0; /* Зменшуємо відступ між фото і текстом до 0 */
 }
 
-.user-details {
+.user-details-all-users {
     display: flex;
     flex-direction: column;
     justify-content: flex-start; /* Розміщуємо вміст від верхнього краю */
@@ -69,12 +71,12 @@
 }
 
 
-.user-details h2 {
+.user-details-all-users h2 {
     margin: 5px;
     color: #1E3F52;
 }
 
-.user-card button {
+.user-card-all-users button {
     background-color: #3498db;
     color: #fff;
     width: auto;
@@ -87,6 +89,6 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.user-card button:hover {
+.user-card-all-users button:hover {
     background-color: #2980b9;
 }

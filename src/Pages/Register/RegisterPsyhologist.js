@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
 import styles from './Register.css';
+import refreshToken from "../../Helpers/refreshToken";
 
 function Register() {
     const navigate = useNavigate();
@@ -16,13 +17,33 @@ function Register() {
     const [details, setdetails] = useState('');
     const [birthday, setBirthday] = useState(''); // Додали стан для дати
     const [jwt,setJwt] =useState(null)
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                if (localStorage.getItem("jwtToken") != null) {
+                    let response =await refreshToken();
+                    console.log(response)
+                    if(response)
+                    {
+                        navigate("/main");
+                    }
+
+                }
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+        checkAuthorization();
+    }, []);
+
     const handleRegister = async () => {
 
 
         if (password === password2) {
             try {
                   console.log(username,email,name,lastname,password,birthday,details)
-                    const createResponse= await axios.post(`https://localhost:7224/api/Account/Register`,
+                    const createResponse= await axios.post(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Register`,
                         {
                             username: username,
                             email: email,
@@ -65,7 +86,7 @@ function Register() {
                  formData.append('resume', resume);
 
                  const response = await axios.post(
-                     'https://localhost:7224/api/Account/PsychologistConfirm',
+                     'http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/PsychologistConfirm',
                      formData,
                      {
                          headers: {

@@ -3,22 +3,36 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Login.css';
+import refreshToken from "../../Helpers/refreshToken";
 
 function Login() {
-    const navigate = useNavigate();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                if (localStorage.getItem("jwtToken") != null) {
+                    let response =await refreshToken();
+                    console.log(response)
+                    if(response)
+                    {
+                        navigate("/main");
+                    }
 
-    // useEffect(() => {
-    //     const jwtToken = localStorage.getItem('jwtToken');
-    //     if (jwtToken) {
-    //         navigate('/user/page');
-    //     }
-    // }, [navigate]);
+                }
+            } catch (ex) {
+                console.error('Error during authorization check:', ex);
+            }
+        };
+        checkAuthorization();
+    }, []);
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('https://localhost:7224/api/Account/Login', {
+            const response = await axios.post('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Login', {
                 email: username,
                 password: password
             });

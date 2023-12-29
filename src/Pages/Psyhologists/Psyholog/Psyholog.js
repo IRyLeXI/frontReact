@@ -24,7 +24,7 @@ const SinglePsychology = () => {
 
         const getPsyhologist = async () => {
             try {
-                const response = await axios.get(`https://localhost:7224/api/User/Id/${localStorage.getItem("cardId")}`);
+                const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/User/Id/${localStorage.getItem("cardId")}`);
                 if (response.status === 200) {
                     setPsyhologist(response.data);
                     console.log(response.data);
@@ -61,7 +61,7 @@ const SinglePsychology = () => {
         let decoded = jwtDecode(localStorage.getItem("jwtToken"))
         console.log(decoded.Id+"--------"+ psyhologist.id);
         if(decoded.Id!=psyhologist.id) {
-            let response = axios.post("https://localhost:7224/api/Friends/SendRequest", {
+            let response = axios.post("http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Friends/SendRequest", {
                 user1id: decoded.Id,
                 user2id: psyhologist.id
             }, {

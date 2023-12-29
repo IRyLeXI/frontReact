@@ -8,7 +8,6 @@ import {HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 import {jwtDecode} from "jwt-decode";
 import Chat from "./Chat/Chat";
 import axios from "axios";
-import {compareArraysAsSet} from "@testing-library/jest-dom/dist/utils";
 
 
 function ChatPage(props) {
@@ -39,7 +38,7 @@ function ChatPage(props) {
             let jwtToken = localStorage.getItem("jwtToken")
             console.log("our User id " +decoded.Id)
 
-            const response = await axios.get(`https://localhost:7224/api/Chats/${decoded.Id}`, {
+            const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Chats/${decoded.Id}`, {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`
                 }
@@ -74,12 +73,12 @@ function ChatPage(props) {
     const joinRoom = async (User1Id, User2Id) => {
         try {
             const connection = new HubConnectionBuilder()
-                .withUrl("https://localhost:7224/api/chat/")
+                .withUrl("http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/chat/")
                 .configureLogging(LogLevel.Information)
                 .build();
 
-            connection.on("ReceiveMessage", (user, message) => {
-                setMessages(messages => [...messages, { user, message }]);
+            connection.on("ReceiveMessage", (user, message, sendDate) => {
+                setMessages(messages => [...messages, { user, message, sendDate }]);
             });
             connection.onclose(e => {
                 setConnection();

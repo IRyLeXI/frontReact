@@ -10,13 +10,17 @@ import SideBar from "./SideBar";
 import UserSideBar from "../UserPage/UserSideBar";
 import axios from "axios";
 import makeAuthorizedRequest from "../../Helpers/refreshToken";
+import refreshToken from "../../Helpers/refreshToken";
+import {jwtDecode} from "jwt-decode";
 function MainPage() {
     const [isAuthorized, setIsAuthorized] = useState(false);
 
     useEffect(() => {
+        let decoded = jwtDecode(localStorage.getItem("jwtToken"));
+        console.log(decoded.Id)
         const checkAuthorization = async () => {
             try {
-                const authorized = await makeAuthorizedRequest();
+                const authorized = await refreshToken();
                 setIsAuthorized(authorized);
             } catch (ex) {
                 console.error('Error during authorization check:', ex);
