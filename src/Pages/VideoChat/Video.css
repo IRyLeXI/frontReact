@@ -6,6 +6,7 @@
 
 .myId {
     margin: 40px;
+    margin-top: 33%;
     margin-right: 5rem;
     border-radius: 5px;
     background: #c9d6ff; /* fallback for old browsers */
@@ -35,6 +36,13 @@
 
     margin-top: 10rem;
     margin-left: 10rem;
+    gap: 15px;
+}
+
+.video{
+    border: black 2px solid;
+    height: 300px;
+    /* margin-left: 10px; */
 }
 
 .caller {
@@ -44,5 +52,12 @@
 
 .full-page {
     height: 100vh;
-   background-color: #456b88;
+    background-color: #456b88;
+}
+
+.call-username {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+    text-align: center;
+
 }

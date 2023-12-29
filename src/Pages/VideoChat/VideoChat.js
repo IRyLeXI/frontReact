@@ -1,121 +1,197 @@
-import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
-import TextField from "@material-ui/core/TextField"
-import AssignmentIcon from "@material-ui/icons/Assignment"
-import PhoneIcon from "@material-ui/icons/Phone"
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import PhoneIcon from '@mui/icons-material/Phone';
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import React, { useEffect, useRef, useState } from "react"
-import { CopyToClipboard } from "react-copy-to-clipboard"
+
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import Peer from "simple-peer"
-import io from "socket.io-client"
+
 import "./Video.css"
+import { jwtDecode } from "jwt-decode"
 
-
-const socket = io.connect('http://localhost:5000')
 function VideoChat() {
-    const [ me, setMe ] = useState("")
-    const [ stream, setStream ] = useState()
-    const [ receivingCall, setReceivingCall ] = useState(false)
-    const [ caller, setCaller ] = useState("")
-    const [ callerSignal, setCallerSignal ] = useState()
-    const [ callAccepted, setCallAccepted ] = useState(false)
-    const [ idToCall, setIdToCall ] = useState("")
-    const [ callEnded, setCallEnded] = useState(false)
-    const [ name, setName ] = useState("")
+    const [me, setMe] = useState("")
+    const [stream, setStream] = useState()
+    const [receivingCall, setReceivingCall] = useState(false)
+    const [caller, setCaller] = useState("")
+    const [callerSignal, setCallerSignal] = useState()
+    const [callAccepted, setCallAccepted] = useState(false)
+    const [idToCall, setIdToCall] = useState("")
+    const [callEnded, setCallEnded] = useState(false)
+    const [isMuted, setIsMuted] = useState(false);
+    const [isCameraOn, setIsCameraOn] = useState(true);
+    const [name, setName] = useState("")
     const myVideo = useRef()
     const userVideo = useRef()
-    const connectionRef= useRef()
+    const connectionRef = useRef(new Peer())
+    const [connection, setConnection] = useState()
+    const [username, setUsername] = useState('')
+
 
     useEffect(() => {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+
+        const fetchData = async () => {
+            const hubConnection = new HubConnectionBuilder()
+                .withUrl("https://localhost:7224/api/videochat")``
+                .configureLogging(LogLevel.Information)
+                .build();
+
+
+            hubConnection.on("me", (id) => {
+                console.log(id)
+                setMe(id)
+            })
+
+            hubConnection.on("callEnded", () => {
+                leaveCall()
+            })
+
+            hubConnection.on("callUser", (data) => {
+                console.log(data)
+                setReceivingCall(true)
+                setCaller(data.from)
+                setName(data.name)
+                setCallerSignal(data.signal)
+            })
+            await hubConnection.start()
+            hubConnection.invoke("OnStart")
+            setConnection(hubConnection);
+
+            let decoded = jwtDecode(localStorage.getItem("jwtToken"));
+            setUsername(decoded.unique_name)
+
+        }
+
+        fetchData();
+
+        navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
             setStream(stream)
             myVideo.current.srcObject = stream
         })
 
-        socket.on("me", (id) => {
-            setMe(id)
-        })
 
-        socket.on("callUser", (data) => {
-            setReceivingCall(true)
-            setCaller(data.from)
-            setName(data.name)
-            setCallerSignal(data.signal)
-        })
     }, [])
 
     const callUser = (id) => {
-        const peer = new Peer({
-            initiator: true,
-            trickle: false,
-            stream: stream
-        })
-        peer.on("signal", (data) => {
-            socket.emit("callUser", {
-                userToCall: id,
-                signalData: data,
-                from: me,
-                name: name
+        try {
+            const peer = new Peer({
+                initiator: true,
+                trickle: false,
+                stream: stream
             })
-        })
-        peer.on("stream", (stream) => {
+            peer.on("signal", (data) => {
+                connection.invoke("CallUser", {
+                    userToCall: id,
+                    signalData: data,
+                    from: me,
+                    name: username
+                })
+            })
+            peer.on("stream", (stream) => {
 
-            userVideo.current.srcObject = stream
+                userVideo.current.srcObject = stream
 
-        })
-        socket.on("callAccepted", (signal) => {
-            setCallAccepted(true)
-            peer.signal(signal)
-        })
+            })
+            connection.on("callAccepted", (signal) => {
+                setCallAccepted(true)
+                peer.signal(signal)
+            })
 
-        connectionRef.current = peer
+            connectionRef.current = peer
+        }
+        catch (e) {
+            window.location.reload();
+        }
     }
 
-    const answerCall =() =>  {
-        setCallAccepted(true)
-        const peer = new Peer({
-            initiator: false,
-            trickle: false,
-            stream: stream
-        })
-        peer.on("signal", (data) => {
-            socket.emit("answerCall", { signal: data, to: caller })
-        })
-        peer.on("stream", (stream) => {
-            userVideo.current.srcObject = stream
-        })
+    const answerCall = () => {
+        try {
+            setCallAccepted(true)
+            const peer = new Peer({
+                initiator: false,
+                trickle: false,
+                stream: stream
+            })
+            peer.on("signal", (data) => {
+                connection.invoke("answerCall", { signal: data, to: caller })
+            })
+            peer.on("stream", (stream) => {
+                userVideo.current.srcObject = stream
+            })
 
-        peer.signal(callerSignal)
-        connectionRef.current = peer
+            peer.signal(callerSignal)
+            connectionRef.current = peer
+        }
+        catch (e) {
+            window.location.reload();
+        }
+    }
+
+    const handleLeave = async () => {
+        if (connection) {
+            console.log(idToCall)
+            if (idToCall) {
+                connection.invoke("EndCall", idToCall)
+            }
+            else {
+                connection.invoke("EndCall", caller)
+            }
+            connection.invoke("EndCall", me);
+        }
     }
 
     const leaveCall = () => {
-        setCallEnded(true)
-        connectionRef.current.destroy()
+        try {
+            console.log("leaving");
+            window.location.reload();
+        }
+        catch (e) {
+            console.log(e);
+        }
+
     }
 
+    const handleToggleMute = () => {
+        if (stream) {
+            const audioTracks = stream.getAudioTracks();
+            audioTracks.forEach((track) => {
+                track.enabled = !track.enabled;
+            });
+            setIsMuted(!isMuted);
+        }
+    };
+
+    const handleToggleCamera = () => {
+        if (stream) {
+            const videoTracks = stream.getVideoTracks();
+            videoTracks.forEach((track) => {
+                track.enabled = !track.enabled;
+            });
+            setIsCameraOn(!isCameraOn);
+        }
+    };
+
     return (
-        <div className="full-page" >
+        <div className="full-page">
             <h1 style={{ textAlign: "center", color: '#fff' }}></h1>
             <div className="container-video-page">
                 <div className="video-container">
                     <div className="video">
-                        {stream &&  <video playsInline muted ref={myVideo} autoPlay style={{ width: "500px" }} />}
+                        {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "500px" }} />}
                     </div>
                     <div className="video">
                         {callAccepted && !callEnded ?
-                            <video playsInline ref={userVideo} autoPlay style={{ width: "500px"}} />:
+                            <video playsInline ref={userVideo} autoPlay style={{ width: "500px" }} /> :
                             null}
                     </div>
                 </div>
                 <div className="myId">
-                    <TextField
-                        id="filled-basic"
-                        label="Name"
-                        variant="filled"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        style={{ marginBottom: "20px" }}
-                    />
+                    <h3 className="call-username">
+                        {username}
+                    </h3>
                     <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
                         <Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
                             Copy ID
@@ -131,30 +207,61 @@ function VideoChat() {
                     />
                     <div className="call-button">
                         {callAccepted && !callEnded ? (
-                            <Button variant="contained" color="secondary" onClick={leaveCall}>
-                                End Call
-                            </Button>
+                            <div>
+                                <Button variant="contained" color="secondary" onClick={handleLeave}>
+                                    End Call
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color={isMuted ? "default" : "primary"}
+                                    onClick={handleToggleMute}
+                                >
+                                    {isMuted ? "Unmute Mic" : "Mute Mic"}
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color={isCameraOn ? "default" : "primary"}
+                                    onClick={handleToggleCamera}
+                                >
+                                    {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
+                                </Button>
+                            </div>
                         ) : (
-                            <IconButton color="primary" aria-label="call" onClick={() => callUser(idToCall)}>
-                                <PhoneIcon fontSize="large" />
-                            </IconButton>
+                            <div>
+                                <IconButton color="primary" aria-label="call" onClick={() => callUser(idToCall)}>
+                                    <PhoneIcon fontSize="large" />
+                                </IconButton>
+                                {idToCall}
+                            </div>
                         )}
-                        {idToCall}
                     </div>
-                </div>
-                <div>
-                    {receivingCall && !callAccepted ? (
-                        <div className="caller">
-                            <h1 >{name} is calling...</h1>
-                            <Button variant="contained" color="primary" onClick={answerCall}>
-                                Answer
-                            </Button>
-                        </div>
-                    ) : null}
+                    <div>
+                        {receivingCall && !callAccepted ? (
+                            <div className="caller">
+                                <h1 >{name} is calling...</h1>
+                                <Button variant="contained" color="primary" onClick={answerCall}>
+                                    Answer
+                                </Button>
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default VideoChat
+
+
+
+
+
+
+
+
+
+
+
+
+
