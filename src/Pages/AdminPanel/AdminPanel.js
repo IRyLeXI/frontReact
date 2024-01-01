@@ -22,7 +22,7 @@ const AdminPanel = () => {
                 if (authorized) {
                     console.log(localStorage.getItem("jwtToken"))
                     let decoded = jwtDecode(localStorage.getItem("jwtToken"));
-                    const response = await axios.get(`https://localhost:7224/api/User/Id/${decoded.Id}`);
+                    const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/User/Id/${decoded.Id}`);
                     if (response.status === 200) {
                         setUser(response.data);
 
@@ -38,7 +38,7 @@ const AdminPanel = () => {
             let jwtToken = localStorage.getItem("jwtToken")
             console.log("our User id " +decoded.role)
 
-            const response = await axios.get(`https://localhost:7224/api/Admin/Pending`, {
+            const response = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Admin/Pending`, {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`
                 }

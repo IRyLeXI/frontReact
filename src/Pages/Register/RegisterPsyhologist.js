@@ -43,7 +43,7 @@ function Register() {
         if (password === password2) {
             try {
                   console.log(username,email,name,lastname,password,birthday,details)
-                    const createResponse= await axios.post(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Register`,
+                    const createResponse= await axios.post(`https://localhost:7224/api/Account/Register`,
                         {
                             username: username,
                             email: email,
