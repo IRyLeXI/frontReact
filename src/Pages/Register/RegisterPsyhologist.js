@@ -22,7 +22,8 @@ function Register() {
     const specializationOptions = [
         'Child Psychologist',
         'Psychologist',
-        'Psychotherapist'
+        'Psychotherapist',
+        'Family Therapist'
     ];
     useEffect(() => {
         const checkAuthorization = async () => {

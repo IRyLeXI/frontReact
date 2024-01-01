@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import MainFooter from '../MainPage/MainFooter';
-import  './AllPsyhologist.css';
+import './AllPsyhologist.css';
 import SideBar from '../MainPage/SideBar';
 import UserSideBar from '../UserPage/UserSideBar';
 import refreshToken from '../../Helpers/refreshToken';
@@ -38,7 +38,6 @@ const PsychologistCard = ({ psychologist }) => {
     };
 
     return (
-
         <div className="psychologist-card">
             <img className="psychologist-img" src={psychologist.avatar} alt={`${psychologist.firstName} ${psychologist.lastName}`} />
             <div className="psychologist-details">
@@ -48,14 +47,43 @@ const PsychologistCard = ({ psychologist }) => {
                 <p>{psychologist.experienceDescription}</p>
             </div>
         </div>
-
     );
 };
 
 const PsychologistsPage = () => {
     const [isAuthorized, setIsAuthorized] = useState(false);
-    const [psychologists, setPsychologists] = useState([]);
+    const [originalPsychologists, setOriginalPsychologists] = useState([]);
+    const [currentPsychologists, setCurrentPsychologists] = useState([]);
+    const [selectedSpecialization, setSelectedSpecialization] = useState('All');
+    const [sortDirection, setSortDirection] = useState('desc'); // Initial sort direction
 
+    const filterBySpecialization = (specialization) => {
+        let filteredPsychologists = [...originalPsychologists];
+
+        if (specialization !== 'All') {
+            filteredPsychologists = originalPsychologists.filter((psychologist) => psychologist.specialization === specialization);
+        }
+
+        setCurrentPsychologists(filteredPsychologists);
+    };
+
+    const sortPsychologistsByRating = () => {
+        const sortedPsychologists = [...currentPsychologists];
+
+        if (sortDirection === 'desc') {
+            sortedPsychologists.sort((a, b) => {
+                return b.rating - a.rating;
+            });
+            setSortDirection('asc');
+        } else {
+            sortedPsychologists.sort((a, b) => {
+                return a.rating - b.rating;
+            });
+            setSortDirection('desc');
+        }
+
+        setCurrentPsychologists(sortedPsychologists);
+    };
     useEffect(() => {
         const getAllPsychologists = async () => {
             try {
@@ -68,7 +96,8 @@ const PsychologistsPage = () => {
                         }
                         return psychologist;
                     }));
-                    setPsychologists(psychologistsWithRatings);
+                    setOriginalPsychologists(psychologistsWithRatings);
+                    setCurrentPsychologists(psychologistsWithRatings);
                 }
             } catch (error) {
                 console.error('Error during data fetching:', error);
@@ -80,6 +109,7 @@ const PsychologistsPage = () => {
                 const authorized = await refreshToken();
                 setIsAuthorized(authorized);
                 await getAllPsychologists();
+                console.log(originalPsychologists)
             } catch (error) {
                 console.error('Error during data fetching:', error);
             }
@@ -89,16 +119,31 @@ const PsychologistsPage = () => {
     }, []);
 
     return (
-        <div  className="background-123">
-        {isAuthorized ? <UserSideBar /> : <SideBar />}
-        <div className="users-page">
-
-            <div className="psychologists-container">
-                {psychologists.map((psychologist, index) => (
-                    <PsychologistCard key={index} psychologist={psychologist} />
-                ))}
+        <div className="background-123">
+            {isAuthorized ? <UserSideBar /> : <SideBar />}
+            <div className="users-page">
+                <div className="filter-psyhologists">
+                    <button className="filter-button" onClick={() => sortPsychologistsByRating()}>Sort by Rating</button>
+                    <select className="filter-select"
+                        value={selectedSpecialization}
+                        onChange={(e) => {
+                            setSelectedSpecialization(e.target.value);
+                            filterBySpecialization(e.target.value);
+                        }}
+                    >
+                        <option value="All">All Specializations</option>
+                        <option value="Child Psychologist">Child Psychologist</option>
+                        <option value="Psychologist">Psychologist</option>
+                        <option value="Psychotherapist">Psychotherapist</option>
+                        <option value="Family Therapist">Family Therapist</option>
+                    </select>
+                </div>
+                <div className="psychologists-container">
+                    {currentPsychologists.map((psychologist, index) => (
+                        <PsychologistCard key={index} psychologist={psychologist} />
+                    ))}
+                </div>
             </div>
-        </div>
         </div>
     );
 };

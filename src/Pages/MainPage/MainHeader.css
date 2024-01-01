@@ -19,11 +19,13 @@
 
 
 .center-text p {
+    position: static;
     margin-top: -10px;
+    margin-left: 2.5%;
     font-size: 22px;
     color: #6b6969;
 }
-
+.center-text-small{}
 /* Оформлення для "Login" і "Register" */
 .login-reg-text {
     float: right; /* Розміщення зправа */

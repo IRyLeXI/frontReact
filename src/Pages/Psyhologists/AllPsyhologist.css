@@ -17,6 +17,24 @@
     height: 100vh; /* Встановлюємо висоту на весь екран */
 }
 
+.filter-psyhologists {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; /* Забезпечення вирівнювання за вертикаллю */
+    margin-bottom: 20px;
+    width: 90%; /* Зменшуємо ширину блоку */
+    margin-right: 20px; /* Додаємо відступ справа */
+}
+
+.filter-button {
+    width: 10%;
+    background-color: #1E3F52;
+    margin-right: 20px; /* Відступ кнопки справа */
+}
+
+.filter-select {
+    margin-right: 20px; /* Відступ випадаючого списку справа */
+}
 
 .psychologists-container {
     display: flex;
