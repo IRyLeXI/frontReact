@@ -6,11 +6,13 @@ import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 import UserSideBar from "../../UserPage/UserSideBar";
 import {Link} from "react-router-dom";
+import Rating from 'react-rating-stars-component';
 
 const SinglePsychology = () => {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [psyhologist, setPsyhologist] = useState();
-
+    const [selectedRating, setSelectedRating] = useState(0);
+    const [showModal, setShowModal] = useState(false);
     useEffect(() => {
 
         const checkAuthorization = async () => {
@@ -71,30 +73,85 @@ const SinglePsychology = () => {
             })
         }
     };
+    const handleRatingChange = async (newRating) => {
+        let jwtToken = localStorage.getItem("jwtToken")
+        let decoded = jwtDecode(localStorage.getItem("jwtToken"));
+        setSelectedRating(newRating);
+        setShowModal(true);
+        try {
+            const response = await axios.post(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Reviews/Create`,
+                {
+                    psychologistId:psyhologist.id,
+                    reviewerId: decoded.Id,
+                    rating:newRating
+            }
+            ,{
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`
+                }
+            });
+            if (response.status === 200) {
 
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.error('Error during data fetching:', error);
+        }
+        console.log(newRating)
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+
+    };
     return (
         <div>
-            {isAuthorized ? <UserSideBar /> : <SideBar />}
             <div className="main-container">
-                {psyhologist && (
+                {psyhologist && ( // Додана перевірка на наявність даних про психолога
                     <div className="single-psychologist-card">
                         <div className="psychologist-info">
                             <img className="psychologist-photo" src={psyhologist.avatar} alt={`${psyhologist.firstName} ${psyhologist.lastName}`} />
                             <div className="psychologist-details">
-                                <h1>{`${psyhologist.firstName.toUpperCase()} ${psyhologist.lastName.toUpperCase()}`}</h1>
+                                <h1>{`${psyhologist.firstName} ${psyhologist.lastName}`}</h1>
+                                <h3>{`${psyhologist.description? psyhologist.description : "НЕМА ОПИСУ"}`}</h3>
                                 <div className="psychologist-buttons">
-                                    <Link to={"/chats"}   onClick={handleSendMessage}><button className="user-messages-button">написати повідомлення</button></Link>
-
-                                    <button  onClick={handleAddFriend}>Додати до друзів</button>
+                                    <button className="user-messages-button">написати повідомлення</button>
+                                    <button>Додати до друзів</button>
                                 </div>
                             </div>
+                        </div>
+                        <div className="psychologist-rating">
+                            <h3>Поставте рейтинг:</h3>
+                            <Rating
+                                count={5}
+                                onChange={(newRating) => handleRatingChange(newRating)}
+                                size={24}
+                                activeColor="#ffd700"
+                            />
                         </div>
                         <p className="psychologist-description">{psyhologist.description}</p>
                     </div>
                 )}
+                {!psyhologist && (
+                    <p>Дані про психолога не знайдено.</p>
+                )}
             </div>
+
+            {/* Модальне вікно */}
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                    <span className="close" onClick={handleCloseModal}>
+                        &times;
+                    </span>
+                        <p>Дякуємо за ваш відгук!</p>
+                        <button onClick={handleCloseModal}>Закрити</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
+
 };
 
 export default SinglePsychology;

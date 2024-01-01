@@ -1,11 +1,27 @@
+.users-page{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    height: 100vh;
+    width: auto;
+}
 
 
+.background-123 {
+    margin: 0;
+    padding: 0;
+    background-image: url('/public/psyhologistPage 1.svg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Встановлюємо висоту на весь екран */
+}
 
 
 .psychologists-container {
     display: flex;
     height: 100vh;
-    background-image: url('/public/psyhologistPage 1.svg');
+
     background-size: cover;
     flex-direction: column;
     align-items: center;
@@ -21,33 +37,33 @@
     overflow: hidden;
     border-radius: 10px;
     padding: 20px;
-    width: 50%;
-    height: auto;
+    width: 90%;
+    min-height: 200px;
+    margin: 10px;
+    height: fit-content;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
-
+.rating-stars{
+    color: #456b88;
+}
 .psychologist-card img.psychologist-img {
     width: 200px;
-    height: 250px;
+    height: 200px;
     border-radius: 10px;
-
-    aspect-ratio: 3 / 4;
     object-fit: cover;
-    margin-right: 20px;
-    margin-bottom: 0; /* Зменшуємо відступ між фото і текстом до 0 */
+    margin-right: 10px; /* зменшіть margin-right на 10px */
+    margin-bottom: 10px; /* додайте margin-bottom */
 }
 
 .psychologist-details {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Розміщуємо вміст від верхнього краю */
-    width: 70%;
-    font-family: "Felix Titling";
+    justify-content: space-between; /* Розміщуємо вміст між верхнім та нижнім краєм */
+    width: calc(100% - 220px); /* Використовуйте calc() для вирахування ширини */
     font-size: 23px;
-    margin-bottom: 10px;
-    color:#1E3F52;
-
+    color: #1E3F52;
 }
+
 
 
 .psychologist-details h2 {

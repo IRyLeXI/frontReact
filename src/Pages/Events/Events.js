@@ -44,6 +44,7 @@ const EventsPage = () => {
 const EventCard = ({ article }) => {
     const formattedDate=new Date(article.createdAt).toUTCString();
     return (
+        <div className="event-page">
         <div className="event-card">
             <div className="event-image">
                 <img src={article.photo} alt={`Article ${article.id}`} />
@@ -60,6 +61,7 @@ const EventCard = ({ article }) => {
                     <p>{formattedDate}</p>
                 </div>
             </div>
+        </div>
         </div>
     );
 };

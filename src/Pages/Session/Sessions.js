@@ -34,7 +34,18 @@ const Sessions = () => {
         checkAuthorization();
         fetchData();
     }, []);
-
+    const renderStatusIcon = (status) => {
+        switch (status) {
+            case 0:
+                return <div className="status-icon pending">Pending</div>;
+            case 1:
+                return <div className="status-icon success">Success</div>;
+            case 2:
+                return <div className="status-icon problem">Problem</div>;
+            default:
+                return null;
+        }
+    };
     const fetchData = async () => {
         let decoded = jwtDecode(localStorage.getItem("jwtToken"));
         let jwtToken = localStorage.getItem("jwtToken");
@@ -58,6 +69,7 @@ const Sessions = () => {
             if (response.status === 200) {
                 console.log(response.data);
                 setSessions(response.data);
+
             }
         }
     };
@@ -129,9 +141,50 @@ console.log("lox")
         // For example, you can show a modal or a form for adding a new session
     };
 
+    const handleUpdateSession = async (status,session) => {
+        let jwtToken = localStorage.getItem("jwtToken")
+        const decoded = jwtDecode(localStorage.getItem("jwtToken"));
+        const updatedSession = { ...selectedSession, status: status };
+        try {
+          console.log(updatedSession,session);
+            const response = await axios.put('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Sessions/Update',
+                {
+                    id:session.id,
+                    psychologistId: decoded.Id,
+                    userId:session.userId,
+                    name:session.name,
+                    beginDate:session.beginDate,
+                    endDate:session.endDate,
+                    description:session.description,
+                    sessionStatus:status
+
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`
+                    }});
+            if (response.status === 200) {
+                console.log('Session updated successfully');
+                window.location.reload();
+
+            }
+        } catch (error) {
+            console.error('Error updating session:', error);
+        }
+    };
+
+
+
+
+
+
+
     return (
         <>
             {isAuthorized ? (
+                <div>
+                    <UserSideBar></UserSideBar>
+
         <div className="user-container">
             <div className="card">
                 <div className="notes-section">
@@ -156,14 +209,23 @@ console.log("lox")
                             key={index}
                             onClick={() => handleSessionClick(session)}
                         >
+                            <div className={`session-status ${session.sessionStatus === 0 ? 'pending' : session.sessionStatus === 1 ? 'success' : session.sessionStatus === 2 ? 'problem' : ''}`}>
+                                {session.sessionStatus === 0 && <div className="status-icon pending-icon"></div>}
+                                {session.sessionStatus === 1 && <div className="status-icon success-icon"></div>}
+                                {session.sessionStatus === 2 && <div className="status-icon problem-icon"></div>}
+                            </div>
+
                             <p>{session.name}</p>
                             <p>{new Date(session.endDate).toLocaleDateString()}</p>
+
                             {expandedSessions[session.id] && (
                                 <div className="expanded-info">
                                     <h2>{session.name}</h2>
-                                     <h3>{session.description}</h3>
+                                    <h3>{session.description}</h3>
                                     <p>{selectedUser.firstName} {selectedUser.lastName}</p>
-                                    <button onClick={()=>{handleDeleteSession(session)}}>Видалити</button>
+                                    <button onClick={() => {handleDeleteSession(session)}}>Видалити</button>
+                                    <button onClick={() => handleUpdateSession(1,session)}>Успішно</button>
+                                    <button onClick={() => handleUpdateSession(2,session)}>Виникли проблеми</button>
                                 </div>
                             )}
                         </div>
@@ -171,9 +233,11 @@ console.log("lox")
                 </div>
             </div>
         </div>
+                </div>
     ) : (
         <div>Not authorized</div>
     )}
+
 </>
     );
 };

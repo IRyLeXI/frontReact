@@ -2,10 +2,21 @@
 
 .user-page-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
-    background-image: url('/public/psyhologistPage 1.svg');
+    background-size: cover;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+.single-page-container{
+    display: flex;
+    height: 100vh;
+    background-size: cover;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .user-card {
@@ -72,5 +83,3 @@
     max-height: 150px; /* Наприклад, обмеження висоти до 150px */
     word-wrap: break-word; /* Додаємо властивість для переносу тексту */
 }
-
-

@@ -45,11 +45,11 @@ function VideoChat() {
         const checkAuthorization = async () => {
             try {
                 if (localStorage.getItem("jwtToken") != null) {
-                   let response =await refreshToken();
+                    let response =await refreshToken();
                     setIsAuthorized(response)
-                   if(!response) {
-                       navigate("/main");
-                   }
+                    if(!response) {
+                        navigate("/main");
+                    }
                 }
 
             } catch (ex) {
@@ -81,11 +81,12 @@ function VideoChat() {
                 setName(data.name)
                 setCallerSignal(data.signal)
             })
+            let decoded = jwtDecode(localStorage.getItem("jwtToken"));
             await hubConnection.start()
-            hubConnection.invoke("OnStart")
+            hubConnection.invoke("OnStart",decoded.Id)
             setConnection(hubConnection);
 
-            let decoded = jwtDecode(localStorage.getItem("jwtToken"));
+
             setUsername(decoded.unique_name)
 
         }
@@ -200,13 +201,13 @@ function VideoChat() {
         // For example:
         palette: {
             mode: 'light',
-          primary: {
+            primary: {
 
-            main: '#1e88e5',
-          },
-          secondary: {
-            main: '#ff1744',
-          },
+                main: '#1e88e5',
+            },
+            secondary: {
+                main: '#ff1744',
+            },
         },
     });
 
@@ -308,16 +309,3 @@ function VideoChat() {
 }
 
 export default VideoChat
-
-
-
-
-
-
-
-
-
-
-
-
-

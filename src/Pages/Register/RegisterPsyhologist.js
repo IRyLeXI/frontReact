@@ -13,11 +13,17 @@ function Register() {
     const [name, setName] = useState(''); // Додали стан для імені
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState(''); // Додали стан для імейла
-    const [resume, setresume] = useState('');
+    const [resume, setresume] = useState(null);
     const [details, setdetails] = useState('');
     const [birthday, setBirthday] = useState(''); // Додали стан для дати
     const [jwt,setJwt] =useState(null)
+    const [specialization, setSpecialization] = useState(''); // New state for specialization
 
+    const specializationOptions = [
+        'Child Psychologist',
+        'Psychologist',
+        'Psychotherapist'
+    ];
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
@@ -43,7 +49,7 @@ function Register() {
         if (password === password2) {
             try {
                   console.log(username,email,name,lastname,password,birthday,details)
-                    const createResponse= await axios.post(`https://localhost:7224/api/Account/Register`,
+                    const createResponse= await axios.post(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Register`,
                         {
                             username: username,
                             email: email,
@@ -51,8 +57,8 @@ function Register() {
                             lastname: lastname,
                             password: password,
                             birthday: birthday,
-                            avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"
-
+                            avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png",
+                            specialization: specialization
                         })
                 if (createResponse.status === 200) {
                     const jwtToken = createResponse.data.jwtToken;
@@ -77,37 +83,43 @@ function Register() {
         }
     }
 
-     useEffect( () => {
 
-         const fetchData =async () => {
-             if (jwt != null) {
-                 const formData = new FormData();
-                 formData.append('description', details);
-                 formData.append('resume', resume);
 
-                 const response = await axios.post(
-                     'http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/PsychologistConfirm',
-                     formData,
-                     {
-                         headers: {
-                             Authorization: `Bearer ${jwt}`,
-                             'Content-Type': 'multipart/form-data',
-                         },
+         useEffect(() => {
+             const fetchData = async () => {
+                 try {
+                     if (jwt != null) {
+                         const formData = new FormData();
+                         formData.append('description', details);
+                         formData.append('resume', new File([], 'empty_resume.txt'));
+
+                         const response = await axios.post(
+                             'http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/PsychologistConfirm',
+                             formData,
+                             {
+                                 headers: {
+                                     Authorization: `Bearer ${jwt}`,
+                                     'Content-Type': 'multipart/form-data',
+                                 },
+                             }
+                         );
+
+                         if (response.status === 200) {
+                             navigate('/main');
+                         } else {
+                             console.error('Помилка: ', response.statusText);
+                         }
                      }
-                 );
-
-                 if (response.status === 200) {
-                     navigate('/main');
-                 } else {
-                     console.error('Помилка авторизації');
+                 } catch (error) {
+                     console.error('Помилка з\'єднання: ', error.message);
                  }
-             }
-         }
-         fetchData();
+             };
 
+             fetchData();
 
      },[jwt])
 
+    useEffect(()=>{console.log(specialization)},[specialization])
     return (
         <div className="RegisterPage">
             <div className="RegisterPanel">
@@ -162,16 +174,20 @@ function Register() {
                         value={birthday}
                         onChange={(e) => setBirthday(e.target.value)}
                     />
-                    <div className="resumeInputContainer">
-                        <label className="resumeLabel" htmlFor="resumeInput">
-                            Resume:
-                        </label>
-                        <input
-                            id="resumeInput"
-                            onChange={(e) => setresume(e.target.files[0])}
-                            type="file"
-                        />
-                    </div>
+                    <select
+                        className="input1"
+                        value={specialization}
+                        onChange={(e) => setSpecialization(e.target.value)}
+                    >
+                        <option value="" disabled>
+                            Select Specialization
+                        </option>
+                        {specializationOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
                     <button
                         className="Regbutton2"
                         onClick={handleRegister}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UserSideBar from './UserSideBar';
 import refreshToken from '../../Helpers/refreshToken';
-import styles from './UserPage.css';
+import  './UserPage.css';
 import SideBar from "../MainPage/SideBar";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
@@ -51,7 +51,7 @@ function UserPage() {
     return (
         <div>
             {isAuthorized ? <UserSideBar /> : <SideBar />}
-            <div className="user-page-container">
+            <div className="single-page-container">
                 {user && (
                     <div className="user-card">
 
@@ -63,8 +63,8 @@ function UserPage() {
                         </div>
                         <div className="right-section">
                             <p className="user-description">{user.description}</p>
-                            
-                        <Link to="/user/page/edit"><button className="edit-button-user" onClick={handleEditAccount}>Edit Account</button> </Link>
+
+                            <Link to="/user/page/edit"><button className="edit-button-user" onClick={handleEditAccount}>Edit Account</button> </Link>
                         </div>
                     </div>
                 )}

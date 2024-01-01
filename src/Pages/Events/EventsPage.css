@@ -1,4 +1,7 @@
-
+.event-page{
+    display: flex;
+    flex-wrap: wrap;
+}
 
 
 .events-container {
@@ -7,7 +10,6 @@
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
-    background-image: url('/public/psyhologistPage 1.svg');
     height: 100vh;
 }
 

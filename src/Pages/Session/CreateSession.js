@@ -37,7 +37,7 @@ const AddSession = () => {
         checkAuthorization();
         const fetchFriends = async () => {
             try {
-                const friendsResponse = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224//api/Friends/${decoded.Id}`);
+                const friendsResponse = await axios.get(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Friends/${decoded.Id}`);
                 if (friendsResponse.status === 200) {
                     console.log(friendsResponse.data);
 
@@ -100,7 +100,7 @@ const AddSession = () => {
 
             if (friendsResponse.status === 200) {
                 console.log(friendsResponse.data);
-                // Ваша логіка для успішної відповіді...
+              navigate("/sessions")
             }
             console.log(sessionData)
         } catch (error) {
@@ -166,7 +166,7 @@ const AddSession = () => {
                         <option value="" disabled>Select User</option>
                         {sessionData.Friends.map((friend, index) => (
                             <option key={index} value={friend.id}>
-                                {friend.firstName + " " + friend.lastName + " " + friend.id}
+                                {friend.firstName + " " + friend.lastName}
                             </option>
                         ))}
                     </select>
