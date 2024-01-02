@@ -32,7 +32,7 @@ function Register() {
             }
         };
         checkAuthorization();
-    }, []);
+    }, [navigate]);
 
     const handleRegister = async () => {
         if (password === password2) {

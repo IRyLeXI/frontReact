@@ -42,7 +42,7 @@ function Register() {
             }
         };
         checkAuthorization();
-    }, []);
+    }, [navigate]);
 
     const handleRegister = async () => {
 
