@@ -15,19 +15,20 @@ function Login() {
         const checkAuthorization = async () => {
             try {
                 if (localStorage.getItem("jwtToken") != null) {
-                    let response = await refreshToken();
+                    let response =await refreshToken();
                     console.log(response)
-                    if (response) {
+                    if(response)
+                    {
                         navigate("/main");
                     }
+
                 }
             } catch (ex) {
                 console.error('Error during authorization check:', ex);
             }
         };
         checkAuthorization();
-    }, [navigate]);
-
+    }, []);
 
     const handleLogin = async () => {
         try {
