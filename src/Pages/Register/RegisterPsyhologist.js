@@ -12,19 +12,13 @@ function Register() {
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [name, setName] = useState(''); // Додали стан для імені
     const [lastname, setLastname] = useState('');
-    const [email, setEmail] = useState(''); // Додали стан для імейла
-    const [resume, setresume] = useState(null);
-    const [details, setdetails] = useState('');
-    const [birthday, setBirthday] = useState(''); // Додали стан для дати
+  
+    const [investment_info, setinvestment_info] = useState('');
+
     const [jwt,setJwt] =useState(null)
     const [specialization, setSpecialization] = useState(''); // New state for specialization
 
-    const specializationOptions = [
-        'Child Psychologist',
-        'Psychologist',
-        'Psychotherapist',
-        'Family Therapist'
-    ];
+    
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
@@ -45,37 +39,24 @@ function Register() {
     }, []);
 
     const handleRegister = async () => {
-
-
         if (password === password2) {
             try {
-                  console.log(username,email,name,lastname,password,birthday,details)
-                    const createResponse= await axios.post(`http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Register`,
-                        {
-                            username: username,
-                            email: email,
-                            firstname: name,
-                            lastname: lastname,
-                            password: password,
-                            birthday: birthday,
-                            avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png",
-                            specialization: specialization
-                        })
-                if (createResponse.status === 200) {
-                    const jwtToken = createResponse.data.jwtToken;
-                    setJwt(jwtToken);
-
-                    const  RefreshToken=createResponse.data.refreshToken;
+            console.log(username,name,lastname,password)
+                const response = await axios.post('https://localhost:7068/Register', {
+                    username: username,
+                    firstname: name,
+                    lastname: lastname,
+                    password: password,
+                    role:4
+                });
+                if (response.status === 200) {
+                    const jwtToken = response.data.jwtToken;
+                    console.log(response);
                     localStorage.setItem('jwtToken', jwtToken);
-                    localStorage.setItem('refreshToken', RefreshToken);// Зберігаємо JWT у localStorage
-
-                }
-                else {
+                    navigate('/main');
+                } else {
                     console.error('Помилка авторизації');
                 }
-
-
-
             } catch (error) {
                 console.error('Помилка відправлення запиту:', error.message);
             }
@@ -91,8 +72,7 @@ function Register() {
                  try {
                      if (jwt != null) {
                          const formData = new FormData();
-                         formData.append('description', details);
-                         formData.append('resume', new File([], 'empty_resume.txt'));
+                         formData.append('description', investment_info);
 
                          const response = await axios.post(
                              'http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/PsychologistConfirm',
@@ -125,12 +105,7 @@ function Register() {
         <div className="RegisterPage">
             <div className="RegisterPanel">
                 <div>
-                    <input
-                        className="input1"
-                        value={email}
-                        placeholder="Email"
-                        onChange={(e) => setEmail(e.target.value)} // Змінив setUsername на setEmail
-                    />
+                   
                     <input
                         className="input1"
                         value={username}
@@ -165,30 +140,12 @@ function Register() {
                     />
                     <input
                         className="input1"
-                        value={details}
-                        placeholder="resumeDetails"
-                        onChange={(e) => setdetails(e.target.value)}
+                        value={investment_info}
+                        placeholder="InvestorInfo"
+                        onChange={(e) => setinvestment_info(e.target.value)}
                     />
-                    <input
-                        className="input1"
-                        type="date"
-                        value={birthday}
-                        onChange={(e) => setBirthday(e.target.value)}
-                    />
-                    <select
-                        className="input1"
-                        value={specialization}
-                        onChange={(e) => setSpecialization(e.target.value)}
-                    >
-                        <option value="" disabled>
-                            Select Specialization
-                        </option>
-                        {specializationOptions.map((option, index) => (
-                            <option key={index} value={option}>
-                                {option}
-                            </option>
-                        ))}
-                    </select>
+                    
+                    
                     <button
                         className="Regbutton2"
                         onClick={handleRegister}

@@ -14,15 +14,18 @@ function UserSideBar() {
             try {
                     let decoded = jwtDecode(localStorage.getItem("jwtToken"));
                     console.log(decoded.role)
-                if(decoded.role==="Psychologist")
+                if(decoded.role==="Mentor")
                 {
-                    setRole("psyh")
+                    setRole("mentor")
                 }
                 if(decoded.role==="Admin")
                 {
                     setRole("admin")
                 }
-
+                if(decoded.role==="Investor")
+                    {
+                        setRole("investor")
+                    }
             } catch (ex) {
                 console.error('Error during authorization check:', ex);
             }
@@ -42,10 +45,9 @@ function UserSideBar() {
                     {role==="admin" ? <div className="nav-bar-caption">
                         <Link to="/admin/panel" className="nav-bar-side"> <button className="nav-bar-links">Адмін</button> </Link>
                     </div>:<div></div> }
-                    {role==="psyh" ? <div className="nav-bar-caption">
-                        <Link to="/sessions" className="nav-bar-side"> <button className="nav-bar-links">Сесії</button> </Link>
+                    {role==="investor" ? <div className="nav-bar-caption">
+                        <Link to="/investions" className="nav-bar-side"> <button className="nav-bar-links">Мої інвестиції</button> </Link>
                     </div>:<div></div> }
-
                     <div className="nav-bar-caption">
                         <Link to="/main" className="nav-bar-side"> <button className="nav-bar-links">Основна</button> </Link>
                     </div>
@@ -53,7 +55,7 @@ function UserSideBar() {
                         <Link to="/chats" className="nav-bar-side"> <button className="nav-bar-links">Чати</button> </Link>
                     </div>
                     <div className="nav-bar-caption">
-                        <Link to="/psychologists" className="nav-bar-side"><button className="nav-bar-links">Наші Психологи</button></Link>
+                        <Link to="/projects" className="nav-bar-side"><button className="nav-bar-links">Стартапи</button></Link>
                     </div>
                     <div className="nav-bar-caption">
                         <Link to="/events" className="nav-bar-side"><button className="nav-bar-links">Статті</button></Link>
@@ -61,12 +63,7 @@ function UserSideBar() {
                     <div className="nav-bar-caption">
                         <Link to="/users" className="nav-bar-side"><button className="nav-bar-links">Спільнота</button></Link>
                     </div>
-                    <div className="nav-bar-caption">
-                        <Link to="/requests" className="nav-bar-side"><button className="nav-bar-links">Запрошення</button></Link>
-                    </div>
-                    <div className="nav-bar-caption">
-                        <Link to="/video" className="nav-bar-side"><button className="nav-bar-links">Відео звінок</button></Link>
-                    </div>
+                   
                     <div className="nav-bar-caption">
                         <Link to="/user/page" className="nav-bar-side"><button className="nav-bar-links">Профіль</button></Link>
                     </div>

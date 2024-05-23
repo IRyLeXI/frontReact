@@ -50,12 +50,12 @@
 
 }
 
-.button {
+.login-button {
     width: 204px;
     height: 53px;
     flex-shrink: 0;
     color: #D2D2D2;
-    margin-left: 115px;
+    margin-left: 0px;
     font-family: Outfit;
     font-size: 32px;
     margin-top: 10px; /* Змінив маржу для відступу від текстових полів */

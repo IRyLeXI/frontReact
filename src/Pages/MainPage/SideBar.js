@@ -21,7 +21,7 @@ function SideBar({ isOpen, setIsOpen }) {
                         <Link to="/main" className="nav-bar-home"> <button className="nav-bar-links">Про нас</button> </Link>
                     </div>
                     <div className="nav-bar-caption">
-                        <Link to="/psychologists" className="nav-bar-side"><button className="nav-bar-links">Наші Психологи</button></Link>
+                        <Link to="/projects" className="nav-bar-side"><button className="nav-bar-links">Наші Психологи</button></Link>
                     </div>
                     <div className="nav-bar-caption">
                         <Link to="/events" className="nav-bar-side"><button className="nav-bar-links">Статті</button></Link>

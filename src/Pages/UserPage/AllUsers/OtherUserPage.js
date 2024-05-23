@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import UserSideBar from './UserSideBar';
-import refreshToken from '../../Helpers/refreshToken';
-import './UserPage.css';
-import SideBar from "../MainPage/SideBar";
+import { useParams } from 'react-router-dom';
+import UserSideBar from "../UserSideBar";
+import refreshToken from '../../../Helpers/refreshToken';
+import './../UserPage.css';
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
+import SideBar from "../../MainPage/SideBar";
 
-function UserPage() {
+function OtherUserPage() {
+    const { userId } = useParams();
     const [isAuthorized, setIsAuthorized] = useState(false);
-    
     const [user, setUser] = useState(null);
     const [userRole, setUserRole] = useState('');
 
@@ -20,9 +21,7 @@ function UserPage() {
                 setIsAuthorized(authorized);
 
                 if (authorized) {
-                    let decoded = jwtDecode(localStorage.getItem("jwtToken"));          
-                              setUserRole(decoded.role);
-                    const response = await axios.get(`https://localhost:7068/api/User/id/${decoded.Id}`);
+                    const response = await axios.get(`https://localhost:7068/api/User/id/${userId}`);
                     if (response.status === 200) {
                         setUser(response.data);
                         console.log(response.data);
@@ -34,40 +33,31 @@ function UserPage() {
         };
 
         checkAuthorization();
-    }, []);
+    }, [userId]);
 
     if (!isAuthorized) {
         return (
             <div>
-                {isAuthorized ? <UserSideBar /> : <SideBar />}
+                <SideBar />
                 Error: User not authorized.
             </div>
         );
     }
 
-    const handleEditAccount = () => {
-        // Дії при натисканні на кнопку "Редагувати акаунт"
-        // Наприклад, відкриття форми для редагування
-    };
-
     return (
         <div>
-            {isAuthorized ? <UserSideBar /> : <SideBar />}
+            <UserSideBar />
             <div className="single-page-container">
                 {user && (
                     <div className="user-card">
                         <div className="left-section">
-                        <div className="user-image">
-    <img src={`data:image/jpeg;base64,${user.imageBase64}`} alt="User Avatar" />
-</div>
-
+                            <div className="user-image">
+                                <img src={`data:image/jpeg;base64,${user.imageBase64}`} alt="User Avatar" />
+                            </div>
                             <h1>{user.username}</h1>
                             <p>{user.firstname} {user.lastname}</p>
                         </div>
                         <div className="right-section">
-                            <p className="user-description">
-                                <strong>Role:</strong> {userRole}
-                            </p>
                             <p className="user-description">
                                 <strong>Skills:</strong> {user.skills || 'No skills provided'}
                             </p>
@@ -77,16 +67,13 @@ function UserPage() {
                             <p className="user-description">
                                 <strong>Experience:</strong> {user.expirience || 'No experience information provided'}
                             </p>
-                            {userRole === 'Investor' && (
+                            {user.role === 'Investor' && (
                                 <p className="user-description">
                                     <strong>Investment Info:</strong> {user.investment_info || 'No investment information provided'}
                                 </p>
                             )}
-
-                            <Link to="/user/page/edit">
-                                <button className="edit-button-user" onClick={handleEditAccount}>
-                                    Edit Account
-                                </button>
+                            <Link to="/chats">
+                                <button className="edit-button-user">Send Message</button>
                             </Link>
                         </div>
                     </div>
@@ -96,4 +83,4 @@ function UserPage() {
     );
 }
 
-export default UserPage;
+export default OtherUserPage;

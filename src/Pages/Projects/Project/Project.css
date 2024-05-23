@@ -1,0 +1,255 @@
+.main-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    background: #B79D9B;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.project-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.project-info {
+    flex-grow: 1;
+}
+
+.project-name {
+    font-size: 24px;
+    margin: 0;
+    color: white;
+}
+
+.project-description {
+    font-size: 16px;
+    color: white;
+    margin: 8px 0;
+}
+
+.post-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.post-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 16px;
+}
+
+.post-author-info {
+    flex-grow: 1;
+}
+
+.post-content {
+    margin-bottom: 16px;
+}
+
+.post-image-container {
+    position: relative;
+}
+
+.post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.post-actions {
+    position: absolute;
+    bottom: -30px;
+    right: -10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5); /* Background for better visibility */
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.members-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.member-item, .user-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.member-avatar, .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.member-info, .user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-member-button {
+    align-self: flex-end;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #5c4847; /* Темно-коричневий колір */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-member-button:hover {
+    background-color: #332827; /* Темніший відтінок темно-коричневого кольору */
+}
+
+.add-user-button {
+    padding: 5px 10px;
+    background-color: #5c4847; /* Темно-коричневий колір */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40px; /* однакова ширина для всіх кнопок */
+    text-align: center;
+}
+
+.add-user-button:hover {
+    background-color: #461511; /* Темніший відтінок темно-коричневого кольору */
+}
+
+.cancel-button {
+    padding: 5px 10px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: #c9302c;
+}
+
+.users-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.menu {
+    display: flex;
+    gap: 10px; /* Зменшено */
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.menu button {
+    background: #5c4847;
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Зменшено */
+    height: 40px;
+    width: 90px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.menu button:hover {
+    background: #461511;
+}
+
+.menu .active {
+    background: #461511;
+}
+
+.create-post-container {
+    padding: 20px;
+    border: 1px solid #d0d0d0;
+    margin-bottom: 20px;
+    width: 600px;
+    background-color: #B79D9B; /* колір під заголовок */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* центровані елементи */
+}
+
+.create-post-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.create-post-container .form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.create-post-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.create-post-container input[type="text"],
+.create-post-container textarea,
+.create-post-container input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.create-post-container button {
+    padding: 10px 20px;
+    background-color: #5c4847; /* Темно-коричневий колір */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.create-post-container button:hover {
+    background-color: #461511; /* Темніший відтінок темно-коричневого кольору */
+}

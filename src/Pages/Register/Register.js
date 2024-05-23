@@ -7,13 +7,19 @@ import refreshToken from "../../Helpers/refreshToken";
 function Register() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [firstname, setName] = useState('');
     const [lastname, setLastname] = useState('');
     const [password2, setPassword2] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-    const [birthday, setBirthday] = useState(''); // Додали стан для дати
+    const [role, setRole] = useState('');
+    const [specialization, setSpecialization] = useState(''); // New state for specialization
+
+    const specializationOptions = [
+        'Student',
+        'Mentor',
+       
+    ];
 
     useEffect(() => {
         const checkAuthorization = async () => {
@@ -37,21 +43,20 @@ function Register() {
     const handleRegister = async () => {
         if (password === password2) {
             try {
-                const response = await axios.post('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Register', {
+                var introle;
+                if(role==="Student") introle=2;
+                else if(role==="Mentor") introle=3;
+                const response = await axios.post('https://localhost:7068/Register', {
                     username: username,
-                    email: email,
-                    firstname: name,
+                    firstname: firstname,
                     lastname: lastname,
                     password: password,
-                    birthday: birthday,
-                    avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"
+                    role:introle
                 });
                 if (response.status === 200) {
                     const jwtToken = response.data.jwtToken;
-                    const  RefreshToken=response.data.refreshToken;
                     console.log(response);
                     localStorage.setItem('jwtToken', jwtToken);
-                    localStorage.setItem('refreshToken', RefreshToken);// Зберігаємо JWT у localStorage
                     navigate('/main');
                 } else {
                     console.error('Помилка авторизації');
@@ -76,12 +81,6 @@ function Register() {
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
-                        className="input1"
-                        value={email}
-                        placeholder="Email" // Додали інпут для імейла
-                        onChange={(e) => setEmail(e.target.value)} // Використовуємо стан для імейла
-                    />
-                    <input
                         className="input2"
                         type="password"
                         placeholder="Password"
@@ -97,21 +96,29 @@ function Register() {
                     />
                     <input
                         className="input1"
-                        value={name}
+                        value={firstname}
                         placeholder="Name"
                         onChange={(e) => setName(e.target.value)}
                     />
+                       <select
+                        className="input1"
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                    >
+                        <option value="" disabled>
+                            Select Role
+                        </option>
+                        {specializationOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
                     <input
                         className="input1"
                         value={lastname}
                         placeholder="Lastname"
                         onChange={(e) => setLastname(e.target.value)}
-                    />
-                    <input
-                        className="input1"
-                        type="date"
-                        value={birthday}
-                        onChange={(e) => setBirthday(e.target.value)}
                     />
                     <button className="Regbutton" onClick={handleRegister} disabled={!passwordsMatch}>
                         Register
@@ -120,7 +127,7 @@ function Register() {
                         {passwordsMatch ? '' : 'Passwords do not match'}
                     </p>
 
-                    <Link  className='registerText2' to="/register/psychologist">Register as Psychologist</Link>
+                    <Link  className='registerText2' to="/register/psychologist">Register as Investor</Link>
                     <Link  className="loginText" to="/login">Sign in</Link>
                 </div>
 

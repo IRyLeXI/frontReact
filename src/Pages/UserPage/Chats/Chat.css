@@ -1,0 +1,71 @@
+/* Стиль для сторінки чату */
+.chat-page {
+    height: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5c4847; /* Коричневий колір заднього фону */
+}
+
+.chat-container {
+    background-color: #FFFFFF; /* Білий колір фону */
+    border-radius: 10px; /* Округлі краї */
+    width: 800px;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.messages-container {
+    flex-grow: 1;
+    overflow-y: auto; /* Прокрутка для повідомлень */
+    margin-bottom: 20px;
+    padding-right: 10px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.message-sent {
+    background-color: #DCF8C6; /* Світло-зелений колір для відправлених повідомлень */
+    align-self: flex-end;
+}
+
+.message-received {
+    background-color: #FFFFFF; /* Білий колір для отриманих повідомлень */
+    align-self: flex-start;
+    border: 1px solid #ddd;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+.chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-right: 10px; /* Простір між інпутом і кнопкою */
+}
+
+.chat-button {
+    padding: 10px;
+    background-color: #5c4847; /* Коричневий колір кнопки */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.chat-button:hover {
+    background-color: #3A2E32; /* Темніший коричневий колір при наведенні */
+}

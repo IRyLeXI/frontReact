@@ -1,98 +1,70 @@
-.user-page-container {
+.all-full-user-page {
     display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: auto;
-
-
-
-
-
-
-    padding: 20px;
 }
 
+.all-user-page-container {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
 
+.all-find-user {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
 
-.user-card {
-
-    background: #e0e0e0;
+.all-user-list-container {
     display: flex;
-    margin: 10px;
-    position: relative; /* Додаємо позиціонування */
-    overflow: hidden;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.all-user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding: 20px;
-    width: 60%;
-    height: auto;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-.find-user
-{
-    width: 50%;
-}
-
-.user-card button {
-    background-color: #3498db;
-    color: #fff;
-    width: auto;
-    /*position: absolute; !* Робимо кнопку абсолютно позиціонованою відносно блоку *!*/
-    bottom: 20px;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-
-
-.user-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Розміщуємо вміст від верхнього краю */
-    /*width: 70%;font-family: "Felix Titling";*/
-    font-size: 19px;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    color:#1E3F52;
-
-}
-/* Add these styles to your CSS file */
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
+    width: 200px;
     text-align: center;
 }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
+.all-user-image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
 
-.user-img {
-    width: 200px;
-    height: 200px;
-    border-radius: 10px;
+.all-user-card-username {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
 
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    margin-right: 20px;
-    margin-bottom: 0;  /* Зменшуємо відступ між фото і текстом до 0 */
+.all-user-card-fullname {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.all-user-messages-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.all-user-messages-button:hover {
+    background-color: #45a049;
 }

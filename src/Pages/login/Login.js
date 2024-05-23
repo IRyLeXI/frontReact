@@ -32,8 +32,8 @@ function Login() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://ec2-51-20-249-147.eu-north-1.compute.amazonaws.com:7224/api/Account/Login', {
-                email: username,
+            const response = await axios.post('https://localhost:7068/Login', {
+                username: username,
                 password: password
             });
             if (response.status === 200) {
@@ -42,7 +42,7 @@ function Login() {
                 console.log(response);
                 localStorage.setItem('jwtToken', jwtToken);
                 localStorage.setItem('refreshToken', RefreshToken);
-                navigate('/user/page');
+                navigate('/main');
             } else {
                 console.error('Помилка авторизації');
             }
@@ -58,7 +58,7 @@ function Login() {
                     <input
                         className="input1"
                         value={username}
-                        placeholder="Email"
+                        placeholder="Username"
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
@@ -68,7 +68,7 @@ function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button className="button" onClick={handleLogin}>
+                    <button className="login-button" onClick={handleLogin}>
                         Login
                     </button>
                 </div>

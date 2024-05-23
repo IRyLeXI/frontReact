@@ -1,0 +1,96 @@
+.tasks-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.tasks-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tasks-tabs button {
+    background: #5c4847;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.tasks-tabs button:hover {
+    background: #461511;
+}
+
+.tasks-tabs .active {
+    background: #461511;
+}
+
+.all-tasks, .user-tasks, .create-task {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.task-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.task-card h3 {
+    margin: 0 0 10px 0;
+}
+
+.task-card p {
+    margin: 5px 0;
+}
+
+.task-status {
+    color: black;
+}
+
+.task-status.done {
+    color: green;
+}
+
+.task-status.ended {
+    color: red;
+}
+
+.create-task form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+}
+
+.create-task input, .create-task textarea, .create-task select {
+    padding: 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.create-task button {
+    padding: 10px 20px;
+    background-color: #5c4847; /* Темно-коричневий колір */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.create-task button:hover {
+    background-color: #461511; /* Темніший відтінок темно-коричневого кольору */
+}
